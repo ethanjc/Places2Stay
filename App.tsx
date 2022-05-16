@@ -9,16 +9,28 @@
  */
 
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-
-import {Text} from './components/base';
+import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {HomeHeader} from '#/components/partial';
 
 const App = () => {
   return (
-    <SafeAreaView>
-      <Text>Hello Metalab!</Text>
+    <SafeAreaView style={styles.background}>
+      <View style={styles.container}>
+        <HomeHeader />
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    backgroundColor: '#FFF1D2',
+  },
+  container: {
+    paddingHorizontal: 50,
+    paddingTop: 37,
+  },
+});
 
 export default App;
