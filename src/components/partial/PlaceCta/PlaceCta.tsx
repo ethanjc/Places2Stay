@@ -4,15 +4,15 @@ import {View, Image, StyleSheet} from 'react-native';
 import {Text} from '#/components/base';
 import {Props} from './PlaceCta.types';
 
-const PlaceCta = ({style, img, imgLabel, description, location}: Props) => (
+const PlaceCta = ({style, image, imageLabel, title, location}: Props) => (
   <View style={style}>
     <View style={styles.imgContainer}>
       <View style={styles.label}>
-        <Text>{imgLabel}</Text>
+        <Text>{imageLabel}</Text>
       </View>
-      <Image source={img} style={styles.img} />
+      <Image source={image} style={styles.img} />
     </View>
-    <Text style={styles.description}>{description}</Text>
+    <Text style={styles.description}>{title}</Text>
     <Text color="#858585">{location}</Text>
   </View>
 );

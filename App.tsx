@@ -10,7 +10,8 @@
 
 import React from 'react';
 import {SafeAreaView, View, StyleSheet, ScrollView} from 'react-native';
-import {HomeHeader, PlaceCta, Search} from '#/components/partial';
+import {SectionHeader, PlaceCta, Search, CityCta} from '#/components/partial';
+import homeMockData from '#/static/homeMockData';
 
 const App = () => {
   return (
@@ -19,36 +20,44 @@ const App = () => {
         <View style={styles.container}>
           <Search style={styles.search} />
 
-          <HomeHeader style={styles.header} />
+          <View style={styles.horizontalPadding}>
+            <SectionHeader
+              style={styles.header}
+              title={homeMockData.sections.placeCtas.title}
+              description={homeMockData.sections.placeCtas.description}
+            />
+            {homeMockData.sections.placeCtas.places.map(
+              ({id, image, imageLabel, title, location}) => (
+                <PlaceCta
+                  key={id}
+                  style={styles.placeCta}
+                  image={image}
+                  imageLabel={imageLabel}
+                  title={title}
+                  location={location}
+                />
+              ),
+            )}
+          </View>
 
-          <PlaceCta
-            img={require('#/static/placeholder.jpg')}
-            imgLabel="From $126"
-            description="408 St. Jacques | 1 Br"
-            location="Old Montreal, Montreal"
-            style={styles.placeCta}
-          />
-          <PlaceCta
-            img={require('#/static/placeholder.jpg')}
-            imgLabel="From $126"
-            description="408 St. Jacques | 1 Br"
-            location="Old Montreal, Montreal"
-            style={styles.placeCta}
-          />
-          <PlaceCta
-            img={require('#/static/placeholder.jpg')}
-            imgLabel="From $126"
-            description="408 St. Jacques | 1 Br"
-            location="Old Montreal, Montreal"
-            style={styles.placeCta}
-          />
-          <PlaceCta
-            img={require('#/static/placeholder.jpg')}
-            imgLabel="From $126"
-            description="408 St. Jacques | 1 Br"
-            location="Old Montreal, Montreal"
-            style={styles.placeCta}
-          />
+          <View>
+            <SectionHeader
+              title={homeMockData.sections.cityCtas.title}
+              style={styles.horizontalPadding}
+            />
+            <ScrollView horizontal style={styles.carousel}>
+              {homeMockData.sections.cityCtas.places.map(
+                ({id, title, image}) => (
+                  <CityCta
+                    style={styles.cityCta}
+                    key={id}
+                    title={title}
+                    image={image}
+                  />
+                ),
+              )}
+            </ScrollView>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -61,8 +70,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF1D2',
   },
   container: {
-    paddingHorizontal: 50,
-    paddingTop: 25,
+    marginTop: 25,
   },
   placeCta: {
     marginBottom: 15,
@@ -72,6 +80,17 @@ const styles = StyleSheet.create({
   },
   search: {
     marginBottom: 18,
+    marginHorizontal: 50,
+  },
+  cityCta: {
+    marginRight: 23,
+  },
+  horizontalPadding: {
+    paddingHorizontal: 50,
+  },
+  carousel: {
+    paddingLeft: 50,
+    paddingBottom: 20,
   },
 });
 

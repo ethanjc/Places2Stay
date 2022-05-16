@@ -1,15 +1,14 @@
 import * as React from 'react';
-import {View, StyleSheet, ViewStyle} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import {Text} from '#/components/base';
-import text from './placeholderText';
-
-const HomeHeader = ({style}: {style: ViewStyle}) => (
+import {Props} from './SectionHeader.types';
+const SectionHeader = ({style, title, description}: Props) => (
   <View style={style}>
     <Text variant="heading" style={styles.title}>
-      {text.title}
+      {title}
     </Text>
-    <Text>{text.description}</Text>
+    {description && <Text>{description}</Text>}
   </View>
 );
 
@@ -19,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeHeader;
+export default SectionHeader;
