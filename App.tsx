@@ -10,13 +10,15 @@
 
 import React from 'react';
 import {SafeAreaView, View, StyleSheet, ScrollView} from 'react-native';
-import {HomeHeader, PlaceCta} from '#/components/partial';
+import {HomeHeader, PlaceCta, Search} from '#/components/partial';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.background}>
       <ScrollView>
         <View style={styles.container}>
+          <Search style={styles.search} />
+
           <HomeHeader style={styles.header} />
 
           <PlaceCta
@@ -60,13 +62,16 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 50,
-    paddingTop: 37,
+    paddingTop: 25,
   },
   placeCta: {
     marginBottom: 15,
   },
   header: {
     marginBottom: 10,
+  },
+  search: {
+    marginBottom: 18,
   },
 });
 
