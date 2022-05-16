@@ -9,15 +9,46 @@
  */
 
 import React from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
-import {HomeHeader} from '#/components/partial';
+import {SafeAreaView, View, StyleSheet, ScrollView} from 'react-native';
+import {HomeHeader, PlaceCta} from '#/components/partial';
 
 const App = () => {
   return (
     <SafeAreaView style={styles.background}>
-      <View style={styles.container}>
-        <HomeHeader />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <HomeHeader style={styles.header} />
+
+          <PlaceCta
+            img={require('#/static/placeholder.jpg')}
+            imgLabel="From $126"
+            description="408 St. Jacques | 1 Br"
+            location="Old Montreal, Montreal"
+            style={styles.placeCta}
+          />
+          <PlaceCta
+            img={require('#/static/placeholder.jpg')}
+            imgLabel="From $126"
+            description="408 St. Jacques | 1 Br"
+            location="Old Montreal, Montreal"
+            style={styles.placeCta}
+          />
+          <PlaceCta
+            img={require('#/static/placeholder.jpg')}
+            imgLabel="From $126"
+            description="408 St. Jacques | 1 Br"
+            location="Old Montreal, Montreal"
+            style={styles.placeCta}
+          />
+          <PlaceCta
+            img={require('#/static/placeholder.jpg')}
+            imgLabel="From $126"
+            description="408 St. Jacques | 1 Br"
+            location="Old Montreal, Montreal"
+            style={styles.placeCta}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -30,6 +61,12 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 50,
     paddingTop: 37,
+  },
+  placeCta: {
+    marginBottom: 15,
+  },
+  header: {
+    marginBottom: 10,
   },
 });
 

@@ -3,18 +3,8 @@ import {Text as StockText, StyleSheet} from 'react-native';
 
 import {Props} from './Text.types';
 
-const Text = ({children, style, variant = 'body'}: Props) => (
-  <StockText
-    style={[
-      variant === 'body'
-        ? styles.body
-        : variant === 'heading'
-        ? styles.heading
-        : null,
-      style,
-    ]}>
-    {children}
-  </StockText>
+const Text = ({children, style, variant = 'body', color = '#000'}: Props) => (
+  <StockText style={[styles[variant], {color}, style]}>{children}</StockText>
 );
 
 const styles = StyleSheet.create({
