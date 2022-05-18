@@ -12,8 +12,9 @@ import React from 'react'
 import { Home, Stay, Search } from '#/components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createStackNavigator } from '@react-navigation/stack'
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { View } from 'react-native'
+import { CardStyleInterpolators } from '@react-navigation/stack'
 
 const Cal = () => <View />
 
@@ -28,26 +29,41 @@ const TabNavigator = () => {
   )
 }
 
+const forStayAnimations = data => {
+  const { current, closing } = data
+  console.log(data, closing, data.index)
+
+  return CardStyleInterpolators.forHorizontalIOS
+}
+
 const App = () => {
-  const Stack = createStackNavigator()
+  const Stack = createSharedElementStackNavigator()
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={TabNavigator} />
-
-        <Stack.Group
-          screenOptions={{
-            presentation: 'modal',
-            headerShown: false,
+        <Stack.Screen
+          name="Stay"
+          component={Stay}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
-        >
-          <Stack.Screen name="Stay" component={Stay} />
-          <Stack.Screen name="Search" component={Search} />
-        </Stack.Group>
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
 export default App
+
+/*
+        <Stack.Group
+          screenOptions={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Search" component={Search} />
+        </Stack.Group>
+ */

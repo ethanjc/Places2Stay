@@ -4,6 +4,7 @@ import { View, Image, StyleSheet } from 'react-native'
 import { Text } from '#/components/base'
 import { Props } from './PlaceCta.types'
 import { TouchableHighlight } from 'react-native-gesture-handler'
+import { SharedElement } from 'react-navigation-shared-element'
 
 const PlaceCta = ({
   style,
@@ -19,7 +20,9 @@ const PlaceCta = ({
         <View style={styles.label}>
           <Text>{imageLabel}</Text>
         </View>
-        <Image source={image} style={styles.img} />
+        <SharedElement id="test">
+          <Image source={image} style={styles.img} />
+        </SharedElement>
       </View>
       <Text style={styles.description}>{title}</Text>
       <Text color="#858585">{location}</Text>

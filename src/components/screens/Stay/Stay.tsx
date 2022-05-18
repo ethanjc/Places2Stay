@@ -12,13 +12,16 @@ import { Card, Text } from '#/components/base'
 import React from 'react'
 import { View, StyleSheet, ScrollView, Image } from 'react-native'
 import data from '#/static/stayMockData'
+import { SharedElement } from 'react-navigation-shared-element'
 
 const Stay = () => {
   const { title, location, dates, image, details } = data
 
   return (
     <View style={styles.background}>
-      <Image source={image} style={styles.img} />
+      <SharedElement id="test">
+        <Image source={image} style={styles.img} />
+      </SharedElement>
       <View style={styles.content}>
         <Text variant="heading">{title}</Text>
         <Text color="#858585" style={styles.details}>
@@ -60,5 +63,16 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
 })
+
+Stay.sharedElements = route => {
+  // const { id } = route.params
+  return [
+    {
+      id: 'test',
+      animation: 'move',
+      resize: 'clip',
+    },
+  ]
+}
 
 export default Stay
