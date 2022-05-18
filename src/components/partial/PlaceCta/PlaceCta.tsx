@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import { View, Image, StyleSheet } from 'react-native'
 
 import { Text } from '#/components/base'
 import { Props } from './PlaceCta.types'

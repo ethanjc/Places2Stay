@@ -34,8 +34,13 @@ const Stay = () => {
           <Text color="#858585" style={styles.details}>
             {dates}
           </Text>
-          {details.map(({ title, items }) => (
-            <Card title={title} items={items} style={styles.card} key={title} />
+          {details.map(({ title: cardTitle, items }) => (
+            <Card
+              title={cardTitle}
+              items={items}
+              style={styles.card}
+              key={title}
+            />
           ))}
         </View>
       </ScrollView>
