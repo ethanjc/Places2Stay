@@ -1,11 +1,26 @@
 import { Text } from '#/components/base'
-import * as React from 'react'
+import React, { useState } from 'react'
 import { View, ViewStyle, StyleSheet } from 'react-native'
 import { TextInput, TouchableHighlight } from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
 import { LocationIcon, BackIcon } from '#/components/base/Icon'
+import Fuse from 'fuse.js'
 
 const Search = ({ style, navigation }: { style?: ViewStyle }) => {
+  const [results, setResults] = useState(searchMockData.cities)
+  const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
+
+  const handleChange = (text: string) => {
+    if (text.length === 0) {
+      setResults(searchMockData.cities)
+
+      return
+    }
+
+    const search = fuse.search(text)
+    setResults(search.map(({ item }) => item))
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -17,11 +32,11 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
           <BackIcon />
         </TouchableHighlight>
         <View style={[styles.search, style]}>
-          <TextInput placeholder='Try "Boston"' />
+          <TextInput placeholder='Try "Boston"' onChangeText={handleChange} />
         </View>
       </View>
 
-      {searchMockData.cities.map(city => (
+      {results.map(city => (
         <View key={city} style={styles.city}>
           <LocationIcon style={styles.icon} />
           <Text>{city}</Text>
