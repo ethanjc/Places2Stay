@@ -1,21 +1,31 @@
-import * as React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import * as React from 'react'
+import { View, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
 
-import {Text} from '#/components/base';
-import {Props} from './PlaceCta.types';
+import { Text } from '#/components/base'
+import { Props } from './PlaceCta.types'
+import { TouchableHighlight } from 'react-native-gesture-handler'
 
-const PlaceCta = ({style, image, imageLabel, title, location}: Props) => (
-  <View style={style}>
-    <View style={styles.imgContainer}>
-      <View style={styles.label}>
-        <Text>{imageLabel}</Text>
+const PlaceCta = ({
+  style,
+  image,
+  imageLabel,
+  title,
+  location,
+  onPress,
+}: Props) => (
+  <TouchableHighlight onPress={onPress} underlayColor='rgba(255,255,255,0.5)'>
+    <View style={style}>
+      <View style={styles.imgContainer}>
+        <View style={styles.label}>
+          <Text>{imageLabel}</Text>
+        </View>
+        <Image source={image} style={styles.img} />
       </View>
-      <Image source={image} style={styles.img} />
+      <Text style={styles.description}>{title}</Text>
+      <Text color='#858585'>{location}</Text>
     </View>
-    <Text style={styles.description}>{title}</Text>
-    <Text color="#858585">{location}</Text>
-  </View>
-);
+  </TouchableHighlight>
+)
 
 const styles = StyleSheet.create({
   imgContainer: {
@@ -44,6 +54,6 @@ const styles = StyleSheet.create({
   description: {
     marginBottom: 7,
   },
-});
+})
 
-export default PlaceCta;
+export default PlaceCta
