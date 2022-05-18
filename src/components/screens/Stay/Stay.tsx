@@ -8,21 +8,37 @@
  * @format
  */
 
+import { Card, Text } from '#/components/base'
 import React from 'react'
 import { View, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import data from '#/static/stayMockData'
 
 const Stay = () => {
   const safeArea = useSafeAreaInsets()
+  const { title, location, dates, image, details } = data
 
   return (
     <View style={styles.background}>
       <View style={[styles.phoneHeader, { height: safeArea.top }]} />
       <ScrollView>
         <Image
-          source={require('#/static/img/placeholder.jpg')}
+          source={image}
           style={[styles.img, { height: safeArea.top + 220 }]}
         />
+        <View style={styles.content}>
+          <Text variant='heading'>{title}</Text>
+          <Text color='#858585' style={styles.details}>
+            {location}
+          </Text>
+          <Text color='#858585' style={styles.details}>
+            {dates}
+          </Text>
+
+          {details.map(({ title, items }) => (
+            <Card title={title} items={items} style={styles.card} key={title} />
+          ))}
+        </View>
       </ScrollView>
     </View>
   )
@@ -45,6 +61,16 @@ const styles = StyleSheet.create({
   },
   img: {
     width: '100%',
+  },
+  content: {
+    marginHorizontal: 29,
+    marginTop: 15,
+  },
+  details: {
+    marginTop: 7,
+  },
+  card: {
+    marginTop: 24,
   },
 })
 
