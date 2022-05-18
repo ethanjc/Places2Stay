@@ -1,11 +1,11 @@
-import * as React from 'react';
-import {TextInput, View, ViewStyle, StyleSheet} from 'react-native';
+import * as React from 'react'
+import { TextInput, View, ViewStyle, StyleSheet } from 'react-native'
 
-const Search = ({style}: {style?: ViewStyle}) => (
+const Search = ({ style }: { style?: ViewStyle }) => (
   <View style={[styles.search, style]}>
     <TextInput placeholder='Try "Boston"' textAlign="center" />
   </View>
-);
+)
 
 const styles = StyleSheet.create({
   search: {
@@ -24,6 +24,6 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: 100,
   },
-});
+})
 
-export default Search;
+export default Search

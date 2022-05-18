@@ -22,8 +22,8 @@ const TabNavigator = () => {
 
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name='Main' component={Home} />
-      <Tab.Screen name='Settings' component={Cal} />
+      <Tab.Screen name="Main" component={Home} />
+      <Tab.Screen name="Settings" component={Cal} />
     </Tab.Navigator>
   )
 }
@@ -34,8 +34,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name='Home' component={TabNavigator} />
-        <Stack.Screen name='Stay' component={Stay} />
+        <Stack.Screen name="Home" component={TabNavigator} />
+        <Stack.Screen name="Stay" component={Stay} />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -1,7 +1,7 @@
-import {TextProps, TextStyle} from 'react-native';
+import { TextProps, TextStyle } from 'react-native'
 
 export type Props = TextProps & {
-  style?: TextStyle;
-  variant?: 'heading' | 'body';
-  color?: string;
-};
+  style?: TextStyle
+  variant?: 'heading' | 'body'
+  color?: string
+}

@@ -7,7 +7,7 @@ import { Props } from './Card.types'
 const Card = ({ children, title, items, style }: Props) => (
   <View style={[styles.card, style]}>
     <View style={styles.title}>
-      <Text color='#FFF'>{title}</Text>
+      <Text color="#FFF">{title}</Text>
     </View>
 
     {items?.map(({ itemLabel, itemDetail }) => (

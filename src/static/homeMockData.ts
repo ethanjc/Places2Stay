@@ -67,6 +67,6 @@ const homeMockData = {
       ],
     },
   },
-};
+}
 
-export default homeMockData;
+export default homeMockData

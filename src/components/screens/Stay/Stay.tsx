@@ -10,7 +10,7 @@
 
 import { Card, Text } from '#/components/base'
 import React from 'react'
-import { View, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native'
+import { View, StyleSheet, ScrollView, Image } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import data from '#/static/stayMockData'
 
@@ -27,14 +27,13 @@ const Stay = () => {
           style={[styles.img, { height: safeArea.top + 220 }]}
         />
         <View style={styles.content}>
-          <Text variant='heading'>{title}</Text>
-          <Text color='#858585' style={styles.details}>
+          <Text variant="heading">{title}</Text>
+          <Text color="#858585" style={styles.details}>
             {location}
           </Text>
-          <Text color='#858585' style={styles.details}>
+          <Text color="#858585" style={styles.details}>
             {dates}
           </Text>
-
           {details.map(({ title, items }) => (
             <Card title={title} items={items} style={styles.card} key={title} />
           ))}

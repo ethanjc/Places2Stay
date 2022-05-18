@@ -13,7 +13,7 @@ const PlaceCta = ({
   location,
   onPress,
 }: Props) => (
-  <TouchableHighlight onPress={onPress} underlayColor='rgba(255,255,255,0.5)'>
+  <TouchableHighlight onPress={onPress} underlayColor="rgba(255,255,255,0.5)">
     <View style={style}>
       <View style={styles.imgContainer}>
         <View style={styles.label}>
@@ -22,7 +22,7 @@ const PlaceCta = ({
         <Image source={image} style={styles.img} />
       </View>
       <Text style={styles.description}>{title}</Text>
-      <Text color='#858585'>{location}</Text>
+      <Text color="#858585">{location}</Text>
     </View>
   </TouchableHighlight>
 )

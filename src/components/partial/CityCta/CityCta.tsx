@@ -1,15 +1,15 @@
-import * as React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import * as React from 'react'
+import { View, Image, StyleSheet } from 'react-native'
 
-import {Text} from '#/components/base';
-import {Props} from './CityCta.types';
+import { Text } from '#/components/base'
+import { Props } from './CityCta.types'
 
-const CityCta = ({style, image, title}: Props) => (
+const CityCta = ({ style, image, title }: Props) => (
   <View style={style}>
     <Image source={image} style={styles.img} />
     <Text>{title}</Text>
   </View>
-);
+)
 
 const styles = StyleSheet.create({
   img: {
@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 7,
   },
-});
+})
 
-export default CityCta;
+export default CityCta

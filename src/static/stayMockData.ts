@@ -31,6 +31,6 @@ const stayMockData = {
       ],
     },
   ],
-};
+}
 
-export default stayMockData;
+export default stayMockData
