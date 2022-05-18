@@ -1,2 +1,3 @@
-export { default as Text } from './text'
-export { default as Card } from './card'
+export { default as Text } from './Text'
+export { default as Card } from './Card'
+export { default as Icon } from './Icon'

@@ -19,10 +19,11 @@ import {
 import { SectionHeader, PlaceCta, Search, CityCta } from '#/components/partial'
 import homeMockData from '#/static/homeMockData'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import LinearGradient from 'react-native-linear-gradient'
 
-const Header = () => (
+const Header = ({ openSearch }: { openSearch: () => void }) => (
   <>
-    <Search style={styles.search} />
+    <Search style={styles.search} onPress={openSearch} />
 
     <View style={styles.horizontalPadding}>
       <SectionHeader
@@ -63,17 +64,23 @@ const Home = ({ navigation }) => {
     />
   )
 
+  const openSearch = () => navigation.navigate('Search')
+
   return (
     <View style={styles.background}>
-      <View style={[styles.phoneHeader, { height: safeArea.top }]} />
+      <LinearGradient
+        colors={['#FFF1D2', 'rgba(255,255,255,0)']}
+        locations={[0.6, 1]}
+        style={[styles.phoneHeader, { height: safeArea.top + 20 }]}
+      />
       <SafeAreaView>
         <FlatList
           data={homeMockData.sections.placeCtas.places}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
-          ListHeaderComponent={Header}
+          ListHeaderComponent={Header({ openSearch })}
           ListFooterComponent={Footer}
-          style={[styles.list, { marginTop: safeArea.top }]}
+          style={styles.list}
         />
       </SafeAreaView>
     </View>
@@ -117,8 +124,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: '100%',
     height: 20,
-    backgroundColor: '#FFF1D2',
-    opacity: 0.8, // TODO: add gradient dependancy
   },
 })
 

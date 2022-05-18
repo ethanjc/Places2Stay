@@ -3,9 +3,19 @@ import React from 'react'
 import { ViewStyle, StyleSheet } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler'
 
-const Search = ({ style }: { style?: ViewStyle }) => {
+const Search = ({
+  style,
+  onPress,
+}: {
+  style?: ViewStyle
+  onPress: () => void
+}) => {
   return (
-    <TouchableHighlight style={[styles.search, style]}>
+    <TouchableHighlight
+      style={[styles.search, style]}
+      onPress={onPress}
+      underlayColor="rgba(255, 255, 255, 0.8)"
+    >
       <Text style={styles.placeholder} color="#858585">
         Try 'Boston'
       </Text>

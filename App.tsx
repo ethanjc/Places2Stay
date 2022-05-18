@@ -9,7 +9,7 @@
  */
 
 import React from 'react'
-import { Home, Stay } from '#/components/screens'
+import { Home, Stay, Search } from '#/components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -43,6 +43,7 @@ const App = () => {
           }}
         >
           <Stack.Screen name="Stay" component={Stay} />
+          <Stack.Screen name="Search" component={Search} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

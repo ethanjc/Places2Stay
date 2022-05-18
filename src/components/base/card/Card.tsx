@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
-import Text from '../text'
+import Text from '../Text'
 
 import { Props } from './Card.types'
 
