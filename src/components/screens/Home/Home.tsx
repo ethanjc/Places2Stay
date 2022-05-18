@@ -73,7 +73,7 @@ const Home = ({ navigation }) => {
           keyExtractor={item => item.id.toString()}
           ListHeaderComponent={Header}
           ListFooterComponent={Footer}
-          style={styles.list}
+          style={[styles.list, { marginTop: safeArea.top }]}
         />
       </SafeAreaView>
     </View>

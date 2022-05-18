@@ -35,7 +35,15 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={TabNavigator} />
-        <Stack.Screen name="Stay" component={Stay} />
+
+        <Stack.Group
+          screenOptions={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Stay" component={Stay} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   )

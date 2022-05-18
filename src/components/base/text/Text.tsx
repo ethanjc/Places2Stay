@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 12,
     lineHeight: 15,
-    fontFamily: 'Encode',
+    fontFamily: 'Encodesans-Regular',
   },
   heading: {
     fontSize: 24,
-    fontFamily: 'encode',
+    fontFamily: 'Bitter',
   },
 })
 

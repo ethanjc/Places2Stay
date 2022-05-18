@@ -1,11 +1,17 @@
-import * as React from 'react'
-import { TextInput, View, ViewStyle, StyleSheet } from 'react-native'
+import { Text } from '#/components/base'
+import React from 'react'
+import { ViewStyle, StyleSheet } from 'react-native'
+import { TouchableHighlight } from 'react-native-gesture-handler'
 
-const Search = ({ style }: { style?: ViewStyle }) => (
-  <View style={[styles.search, style]}>
-    <TextInput placeholder='Try "Boston"' textAlign="center" />
-  </View>
-)
+const Search = ({ style }: { style?: ViewStyle }) => {
+  return (
+    <TouchableHighlight style={[styles.search, style]}>
+      <Text style={styles.placeholder} color="#858585">
+        Try 'Boston'
+      </Text>
+    </TouchableHighlight>
+  )
+}
 
 const styles = StyleSheet.create({
   search: {
@@ -23,6 +29,10 @@ const styles = StyleSheet.create({
     elevation: 4,
     paddingVertical: 18,
     borderRadius: 100,
+  },
+  placeholder: {
+    flex: 1,
+    textAlign: 'center',
   },
 })
 
