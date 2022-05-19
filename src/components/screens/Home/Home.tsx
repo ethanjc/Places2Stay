@@ -21,18 +21,22 @@ import homeMockData from '#/static/homeMockData'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
 
-const Header = ({ openSearch }: { openSearch: () => void }) => (
-  <>
-    <Search style={styles.search} onPress={openSearch} />
-    <View style={styles.horizontalPadding}>
-      <SectionHeader
-        style={styles.header}
-        title={homeMockData.sections.placeCtas.title}
-        description={homeMockData.sections.placeCtas.description}
+const Header = ({ openSearch }: { openSearch: () => void }) => {
+  const safeArea = useSafeAreaInsets()
+  return (
+    <>
+      <LinearGradient
+        colors={['#FFF1D2', 'rgba(255,255,255,0)']}
+        locations={[0.6, 1]}
+        style={[styles.phoneHeader, { height: safeArea.top + 120 }]}
       />
-    </View>
-  </>
-)
+      <Search
+        style={[styles.search, { marginTop: safeArea.top + 15 }]}
+        onPress={openSearch}
+      />
+    </>
+  )
+}
 
 const Footer = () => (
   <View>
@@ -49,40 +53,46 @@ const Footer = () => (
 )
 
 const Home = ({ navigation }) => {
-  const safeArea = useSafeAreaInsets()
-
-  const renderItem = ({ item: { id, image, imageLabel, title, location } }) => (
-    <PlaceCta
-      key={id}
-      id={id}
-      style={styles.placeCta}
-      image={image}
-      imageLabel={imageLabel}
-      title={title}
-      location={location}
-      onPress={() => navigation.navigate('Stay', { id })}
-    />
+  const renderItem = ({
+    item: { id, image, imageLabel, title, location },
+    index,
+  }) => (
+    <>
+      {index === 0 && (
+        <View style={styles.horizontalPadding}>
+          <SectionHeader
+            style={styles.header}
+            title={homeMockData.sections.placeCtas.title}
+            description={homeMockData.sections.placeCtas.description}
+          />
+        </View>
+      )}
+      <PlaceCta
+        key={id}
+        id={id}
+        style={styles.placeCta}
+        image={image}
+        imageLabel={imageLabel}
+        title={title}
+        location={location}
+        onPress={() => navigation.navigate('Stay', { id })}
+      />
+    </>
   )
 
   const openSearch = () => navigation.navigate('Search')
 
   return (
     <View style={styles.background}>
-      <LinearGradient
-        colors={['#FFF1D2', 'rgba(255,255,255,0)']}
-        locations={[0.6, 1]}
-        style={[styles.phoneHeader, { height: safeArea.top + 20 }]}
+      <FlatList
+        data={homeMockData.sections.placeCtas.places}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+        ListHeaderComponent={Header({ openSearch })}
+        ListFooterComponent={Footer}
+        style={styles.list}
+        stickyHeaderIndices={[0]}
       />
-      <SafeAreaView>
-        <FlatList
-          data={homeMockData.sections.placeCtas.places}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-          ListHeaderComponent={Header({ openSearch })}
-          ListFooterComponent={Footer}
-          style={styles.list}
-        />
-      </SafeAreaView>
     </View>
   )
 }
@@ -102,7 +112,6 @@ const styles = StyleSheet.create({
   search: {
     marginBottom: 18,
     marginHorizontal: 50,
-    marginTop: 25,
   },
   cityCta: {
     marginRight: 23,
@@ -121,7 +130,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 1,
     width: '100%',
     height: 20,
   },

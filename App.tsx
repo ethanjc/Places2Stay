@@ -62,14 +62,3 @@ const App = () => {
 }
 
 export default App
-
-/*
-        <Stack.Group
-          screenOptions={{
-            presentation: 'modal',
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Search" component={Search} />
-        </Stack.Group>
- */
