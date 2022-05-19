@@ -26,9 +26,9 @@ const Header = ({ openSearch }: { openSearch: () => void }) => {
   return (
     <>
       <LinearGradient
-        colors={['#FFF1D2', 'rgba(255,255,255,0)']}
-        locations={[0.6, 1]}
-        style={[styles.phoneHeader, { height: safeArea.top + 120 }]}
+        colors={['#FFF1D2', 'rgba(255,241,210,0)']}
+        locations={[0.8, 1]}
+        style={[styles.phoneHeader, { height: safeArea.top + 90 }]}
       />
       <Search
         style={[styles.search, { marginTop: safeArea.top + 15 }]}
