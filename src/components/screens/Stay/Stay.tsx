@@ -13,7 +13,6 @@ import React, { useEffect, useRef } from 'react'
 import { View, StyleSheet, Image, Animated } from 'react-native'
 import data from '#/static/stayMockData'
 import { SharedElement } from 'react-navigation-shared-element'
-import LinearGradient from 'react-native-linear-gradient'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Stay = ({ route }) => {

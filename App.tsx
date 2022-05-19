@@ -9,18 +9,11 @@
  */
 
 import React from 'react'
-import { Home, Stay, Search } from '#/components/screens'
+import { Home, Stay, Search, Calendar } from '#/components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
-import { View } from 'react-native'
-import {
-  CardStyleInterpolators,
-  TransitionSpecs,
-  TransitionPresets,
-} from '@react-navigation/stack'
-
-const Cal = () => <View />
+import { TransitionPresets } from '@react-navigation/stack'
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator()
@@ -28,7 +21,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Main" component={Home} />
-      <Tab.Screen name="Settings" component={Cal} />
+      <Tab.Screen name="Settings" component={Calendar} />
     </Tab.Navigator>
   )
 }
