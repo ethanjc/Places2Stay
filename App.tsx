@@ -14,7 +14,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { View } from 'react-native'
-import { CardStyleInterpolators } from '@react-navigation/stack'
+import {
+  CardStyleInterpolators,
+  TransitionSpecs,
+  TransitionPresets,
+} from '@react-navigation/stack'
 
 const Cal = () => <View />
 
@@ -29,12 +33,6 @@ const TabNavigator = () => {
   )
 }
 
-const forStayAnimations = ({ current }) => ({
-  cardStyle: {
-    opacity: current.progress,
-  },
-})
-
 const App = () => {
   const Stack = createSharedElementStackNavigator()
 
@@ -46,7 +44,8 @@ const App = () => {
           name="Stay"
           component={Stay}
           options={{
-            cardStyleInterpolator: forStayAnimations,
+            ...TransitionPresets.ModalPresentationIOS,
+            presentation: 'transparentModal',
           }}
         />
       </Stack.Navigator>

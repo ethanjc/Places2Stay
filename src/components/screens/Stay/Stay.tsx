@@ -9,8 +9,8 @@
  */
 
 import { Card, Text } from '#/components/base'
-import React from 'react'
-import { View, StyleSheet, Image } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { View, StyleSheet, Image, Animated } from 'react-native'
 import data from '#/static/stayMockData'
 import { SharedElement } from 'react-navigation-shared-element'
 import LinearGradient from 'react-native-linear-gradient'
@@ -22,12 +22,40 @@ const Stay = ({ route }) => {
   const { title, location, dates, image, details } = data
   const { id } = route.params
 
+  const fadeIn = useRef(new Animated.Value(0)).current
+  const translate = useRef(new Animated.Value(-50)).current
+  const contentfadeIn = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    Animated.timing(fadeIn, {
+      toValue: 1,
+      duration: 200,
+      delay: 500,
+      useNativeDriver: true,
+    }).start()
+
+    Animated.timing(translate, {
+      toValue: 0,
+      duration: 200,
+      delay: 410,
+      useNativeDriver: true,
+    }).start()
+
+    Animated.timing(contentfadeIn, {
+      toValue: 1,
+      duration: 200,
+      delay: 200,
+      useNativeDriver: true,
+    }).start()
+  })
+
   return (
-    <View style={styles.background}>
+    <View style={[styles.root, { marginTop: safeArea.top }]}>
       <SharedElement id={`place-${id}`}>
         <Image source={image} style={styles.img} />
       </SharedElement>
-      <View style={styles.content}>
+
+      <Animated.View style={[styles.content, { opacity: contentfadeIn }]}>
         <Text variant="heading">{title}</Text>
         <Text color="#858585" style={styles.details}>
           {location}
@@ -43,23 +71,28 @@ const Stay = ({ route }) => {
             key={cardTitle}
           />
         ))}
-      </View>
+      </Animated.View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  background: {
+  root: {
+    position: 'relative',
     flex: 1,
-    backgroundColor: '#FFF1D2',
   },
   img: {
     width: '100%',
-    height: 220,
+    height: 230,
+    resizeMode: 'cover',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
   },
   content: {
-    marginHorizontal: 29,
-    marginTop: 15,
+    backgroundColor: '#FFF1D2',
+    paddingHorizontal: 29,
+    paddingTop: 15,
+    flex: 1,
   },
   details: {
     marginTop: 7,
@@ -83,8 +116,9 @@ Stay.sharedElements = route => {
   return [
     {
       id: `place-${id}`,
-      animation: 'move',
-      resize: 'clip',
+      animation: 'fade',
+      resize: 'auto',
+      align: 'auto',
     },
   ]
 }

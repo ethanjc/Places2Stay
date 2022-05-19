@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   img: {
-    height: '100%',
+    height: 105,
     width: '100%',
     resizeMode: 'cover',
   },
