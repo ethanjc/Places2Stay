@@ -29,12 +29,11 @@ const TabNavigator = () => {
   )
 }
 
-const forStayAnimations = data => {
-  const { current, closing } = data
-  console.log(data, closing, data.index)
-
-  return CardStyleInterpolators.forHorizontalIOS
-}
+const forStayAnimations = ({ current }) => ({
+  cardStyle: {
+    opacity: current.progress,
+  },
+})
 
 const App = () => {
   const Stack = createSharedElementStackNavigator()
@@ -47,7 +46,7 @@ const App = () => {
           name="Stay"
           component={Stay}
           options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            cardStyleInterpolator: forStayAnimations,
           }}
         />
       </Stack.Navigator>

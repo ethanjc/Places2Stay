@@ -15,7 +15,6 @@ import {
   ScrollView,
   FlatList,
   SafeAreaView,
-  Image,
 } from 'react-native'
 import { SectionHeader, PlaceCta, Search, CityCta } from '#/components/partial'
 import homeMockData from '#/static/homeMockData'
@@ -25,10 +24,6 @@ import LinearGradient from 'react-native-linear-gradient'
 const Header = ({ openSearch }: { openSearch: () => void }) => (
   <>
     <Search style={styles.search} onPress={openSearch} />
-    <Image
-      source={require('#/static/img/placeholder.jpg')}
-      style={{ width: 200, height: 200, margin: 50 }}
-    />
     <View style={styles.horizontalPadding}>
       <SectionHeader
         style={styles.header}
@@ -59,12 +54,13 @@ const Home = ({ navigation }) => {
   const renderItem = ({ item: { id, image, imageLabel, title, location } }) => (
     <PlaceCta
       key={id}
+      id={id}
       style={styles.placeCta}
       image={image}
       imageLabel={imageLabel}
       title={title}
       location={location}
-      onPress={() => navigation.navigate('Stay')}
+      onPress={() => navigation.navigate('Stay', { id })}
     />
   )
 

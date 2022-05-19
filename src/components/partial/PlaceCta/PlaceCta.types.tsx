@@ -6,5 +6,6 @@ export type Props = {
   imageLabel: string
   title: string
   location: string
+  id: string
   onPress: () => void
 }

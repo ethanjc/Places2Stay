@@ -10,16 +10,21 @@
 
 import { Card, Text } from '#/components/base'
 import React from 'react'
-import { View, StyleSheet, ScrollView, Image } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import data from '#/static/stayMockData'
 import { SharedElement } from 'react-navigation-shared-element'
+import LinearGradient from 'react-native-linear-gradient'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-const Stay = () => {
+const Stay = ({ route }) => {
+  const safeArea = useSafeAreaInsets()
+
   const { title, location, dates, image, details } = data
+  const { id } = route.params
 
   return (
     <View style={styles.background}>
-      <SharedElement id="test">
+      <SharedElement id={`place-${id}`}>
         <Image source={image} style={styles.img} />
       </SharedElement>
       <View style={styles.content}>
@@ -62,13 +67,22 @@ const styles = StyleSheet.create({
   card: {
     marginTop: 24,
   },
+  phoneHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+    width: '100%',
+    height: 20,
+  },
 })
 
 Stay.sharedElements = route => {
-  // const { id } = route.params
+  const { id } = route.params
+
   return [
     {
-      id: 'test',
+      id: `place-${id}`,
       animation: 'move',
       resize: 'clip',
     },

@@ -12,22 +12,26 @@ const PlaceCta = ({
   imageLabel,
   title,
   location,
+  id,
   onPress,
 }: Props) => (
-  <TouchableHighlight onPress={onPress} underlayColor="rgba(255,255,255,0.5)">
-    <View style={style}>
-      <View style={styles.imgContainer}>
-        <View style={styles.label}>
-          <Text>{imageLabel}</Text>
-        </View>
-        <SharedElement id="test">
+  <View style={style}>
+    <View style={styles.imgContainer}>
+      <View style={styles.label}>
+        <Text>{imageLabel}</Text>
+      </View>
+      <TouchableHighlight
+        onPress={onPress}
+        underlayColor="rgba(255,255,255,0.5)"
+      >
+        <SharedElement id={`place-${id}`}>
           <Image source={image} style={styles.img} />
         </SharedElement>
-      </View>
-      <Text style={styles.description}>{title}</Text>
-      <Text color="#858585">{location}</Text>
+      </TouchableHighlight>
     </View>
-  </TouchableHighlight>
+    <Text style={styles.description}>{title}</Text>
+    <Text color="#858585">{location}</Text>
+  </View>
 )
 
 const styles = StyleSheet.create({
