@@ -116,7 +116,7 @@ Stay.sharedElements = route => {
   return [
     {
       id: `place-${id}`,
-      animation: 'fade',
+      animation: 'move',
       resize: 'auto',
       align: 'auto',
     },
