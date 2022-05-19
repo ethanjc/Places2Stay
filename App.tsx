@@ -39,6 +39,7 @@ const App = () => {
           options={{
             ...TransitionPresets.ModalPresentationIOS,
             presentation: 'transparentModal',
+            gestureResponseDistance: 280,
           }}
         />
         <Stack.Screen

@@ -21,25 +21,9 @@ const Stay = ({ route }) => {
   const { title, location, dates, image, details } = data
   const { id } = route.params
 
-  const fadeIn = useRef(new Animated.Value(0)).current
-  const translate = useRef(new Animated.Value(-50)).current
   const contentfadeIn = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    Animated.timing(fadeIn, {
-      toValue: 1,
-      duration: 200,
-      delay: 500,
-      useNativeDriver: true,
-    }).start()
-
-    Animated.timing(translate, {
-      toValue: 0,
-      duration: 200,
-      delay: 410,
-      useNativeDriver: true,
-    }).start()
-
     Animated.timing(contentfadeIn, {
       toValue: 1,
       duration: 200,
@@ -51,7 +35,7 @@ const Stay = ({ route }) => {
   return (
     <View style={[styles.root, { marginTop: safeArea.top }]}>
       <SharedElement id={`place-${id}`}>
-        <Image source={image} style={styles.img} />
+        <Animated.Image source={image} style={styles.img} />
       </SharedElement>
 
       <Animated.View style={[styles.content, { opacity: contentfadeIn }]}>
@@ -84,8 +68,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 230,
     resizeMode: 'cover',
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
   },
   content: {
     backgroundColor: '#FFF1D2',
@@ -106,6 +90,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
     width: '100%',
     height: 20,
+  },
+  imgContainer: {
+    overflow: 'hidden',
   },
 })
 

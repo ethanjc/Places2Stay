@@ -9,13 +9,7 @@
  */
 
 import React from 'react'
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  FlatList,
-  SafeAreaView,
-} from 'react-native'
+import { View, StyleSheet, ScrollView, FlatList } from 'react-native'
 import { SectionHeader, PlaceCta, Search, CityCta } from '#/components/partial'
 import homeMockData from '#/static/homeMockData'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -111,7 +105,7 @@ const styles = StyleSheet.create({
   },
   search: {
     marginBottom: 18,
-    marginHorizontal: 50,
+    marginHorizontal: 30,
   },
   cityCta: {
     marginRight: 23,
