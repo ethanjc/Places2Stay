@@ -48,6 +48,14 @@ const App = () => {
             presentation: 'transparentModal',
           }}
         />
+        <Stack.Screen
+          name="Search"
+          component={Search}
+          options={{
+            ...TransitionPresets.ModalPresentationIOS,
+            presentation: 'transparentModal',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
