@@ -1,6 +1,7 @@
-import { TextProps, TextStyle } from 'react-native'
+import { TextProps } from 'react-native'
 
 export type Props = TextProps & {
-  onToggle: () => {}
+  onToggle: (index: number) => {}
   values: [string, string]
+  selected: 0 | 1
 }
