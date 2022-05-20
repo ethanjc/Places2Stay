@@ -1,7 +1,7 @@
 import { Text } from '#/components/base'
 import React from 'react'
 import { ViewStyle, StyleSheet } from 'react-native'
-import { TouchableHighlight } from 'react-native-gesture-handler'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const Search = ({
   style,
@@ -11,7 +11,7 @@ const Search = ({
   onPress: () => void
 }) => {
   return (
-    <TouchableHighlight
+    <TouchableWithoutFeedback
       style={[styles.search, style]}
       onPress={onPress}
       underlayColor="rgba(255, 255, 255, 0.8)"
@@ -19,12 +19,14 @@ const Search = ({
       <Text style={styles.placeholder} color="#858585">
         Try 'Boston'
       </Text>
-    </TouchableHighlight>
+    </TouchableWithoutFeedback>
   )
 }
 
 const styles = StyleSheet.create({
   search: {
+    alignSelf: 'center',
+    paddingHorizontal: 30,
     borderColor: 'rgba(0, 0, 0, 0.19)',
     borderStyle: 'solid',
     backgroundColor: '#fff',
@@ -37,12 +39,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.17,
     shadowRadius: 3.05,
     elevation: 4,
-    paddingVertical: 18,
+    paddingTop: 20,
+    paddingBottom: 16,
     borderRadius: 100,
+    justifyContent: 'center',
   },
   placeholder: {
     flex: 1,
-    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '500',
+    letterSpacing: 1,
   },
 })
 

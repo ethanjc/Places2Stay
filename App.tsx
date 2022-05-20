@@ -46,8 +46,8 @@ const App = () => {
           name="Search"
           component={Search}
           options={{
-            ...TransitionPresets.ModalPresentationIOS,
             presentation: 'transparentModal',
+            animationEnabled: false,
           }}
         />
       </Stack.Navigator>

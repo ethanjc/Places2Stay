@@ -83,6 +83,7 @@ const Home = ({ navigation }) => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         ListHeaderComponent={Header({ openSearch })}
+        ListHeaderComponentStyle={styles.header}
         ListFooterComponent={Footer}
         style={styles.list}
         stickyHeaderIndices={[0]}
@@ -101,11 +102,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 50,
   },
   header: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   search: {
     marginBottom: 18,
-    marginHorizontal: 30,
+    width: '80%',
   },
   cityCta: {
     marginRight: 23,
