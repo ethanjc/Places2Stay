@@ -14,14 +14,37 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
 import { TransitionPresets } from '@react-navigation/stack'
+import { CalendarIcon, HomeIcon } from '#/components/base/Icon'
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator()
 
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-      <Tab.Screen name="Main" component={Home} />
-      <Tab.Screen name="Settings" component={Calendar} />
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { backgroundColor: '#FFF8E8' },
+        tabBarShowLabel: false,
+      }}
+    >
+      <Tab.Screen
+        name="Main"
+        component={Home}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <HomeIcon style={{ opacity: focused ? 1 : 0.7 }} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Calendar}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <CalendarIcon style={{ opacity: focused ? 1 : 0.7 }} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   )
 }

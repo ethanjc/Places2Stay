@@ -20,7 +20,7 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [heightAuto, setHeightAuto] = useState(false)
-  const [searchHeight, setSearchHeight] = useState(312)
+  const [searchHeight, setSearchHeight] = useState(307)
 
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({

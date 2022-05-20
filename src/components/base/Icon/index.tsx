@@ -1,1 +1,1 @@
-export { LocationIcon, BackIcon } from './Icon'
+export { LocationIcon, BackIcon, HomeIcon, CalendarIcon } from './Icon'
