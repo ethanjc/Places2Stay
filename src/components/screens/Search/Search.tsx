@@ -23,6 +23,7 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
   const [searchHeight, setSearchHeight] = useState(307)
 
   const handleChange = (text: string) => {
+    setHeightAuto(true)
     LayoutAnimation.configureNext({
       duration: 400,
       update: { type: 'spring', springDamping: 0.7, initialVelocity: 10 },
@@ -50,7 +51,7 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
     Animated.spring(contentfadeIn, {
       toValue: 1,
       useNativeDriver: false,
-    }).start(() => setHeightAuto(true))
+    }).start()
   }, [])
 
   const handleClose = () => {
