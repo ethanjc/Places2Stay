@@ -16,10 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const Calendar = () => {
   return (
     <SafeAreaView style={styles.background}>
-      <Toggle
-        values={['Calendar', "I'm flexible"]}
-        onToggle={() => console.log('TOGGGGGGLLLLLLEEEEEEE')}
-      />
+      <Toggle values={['Calendar', "I'm flexible"]} onToggle={() => {}} />
     </SafeAreaView>
   )
 }
