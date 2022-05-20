@@ -1,6 +1,5 @@
-import { Text } from '#/components/base'
 import React from 'react'
-import { ViewStyle, StyleSheet } from 'react-native'
+import { ViewStyle, StyleSheet, TextInput } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 const Search = ({
@@ -16,9 +15,12 @@ const Search = ({
       onPress={onPress}
       underlayColor="rgba(255, 255, 255, 0.8)"
     >
-      <Text style={styles.placeholder} color="#858585">
-        Try 'Boston'
-      </Text>
+      <TextInput
+        placeholder="Try 'Boston'"
+        style={styles.input}
+        placeholderTextColor="#858585"
+        pointerEvents="none"
+      />
     </TouchableWithoutFeedback>
   )
 }
@@ -39,8 +41,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.17,
     shadowRadius: 3.05,
     elevation: 4,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingTop: 17,
+    paddingBottom: 15,
     borderRadius: 100,
     justifyContent: 'center',
   },
@@ -49,6 +51,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     letterSpacing: 1,
+  },
+  input: {
+    fontSize: 16,
+    color: '#fff',
   },
 })
 
