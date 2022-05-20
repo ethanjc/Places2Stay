@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import {
   TextInput,
-  TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
@@ -24,6 +23,11 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
   const [searchHeight, setSearchHeight] = useState(312)
 
   const handleChange = (text: string) => {
+    LayoutAnimation.configureNext({
+      duration: 400,
+      update: { type: 'spring', springDamping: 0.7, initialVelocity: 10 },
+    })
+
     if (text.length === 0) {
       setResults(searchMockData.cities)
 
@@ -31,10 +35,6 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
     }
 
     const search = fuse.search(text)
-    LayoutAnimation.configureNext({
-      duration: 400,
-      update: { type: 'spring', springDamping: 0.7, initialVelocity: 10 },
-    })
     setResults(search.map(({ item }) => item))
   }
 
@@ -124,12 +124,22 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
             autoFocus
           />
           <Animated.View style={[styles.content, { opacity: contentfadeIn }]}>
-            {results.map(city => (
-              <View key={city} style={styles.city}>
-                <LocationIcon style={styles.icon} />
-                <Text>{city}</Text>
-              </View>
-            ))}
+            {results.length > 0 ? (
+              results.map((city, index) => (
+                <View
+                  key={city}
+                  style={[
+                    styles.city,
+                    { marginBottom: index === results.length - 1 ? 0 : 10 },
+                  ]}
+                >
+                  <LocationIcon style={styles.icon} />
+                  <Text>{city}</Text>
+                </View>
+              ))
+            ) : (
+              <Text>No places here yet :(</Text>
+            )}
           </Animated.View>
         </Animated.View>
       </Animated.View>
@@ -165,15 +175,15 @@ const styles = StyleSheet.create({
   },
   content: {
     marginTop: 15,
-    paddingTop: 7,
-    marginBottom: 7,
+    paddingTop: 15,
+    marginBottom: 5,
     borderTopWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.19)',
   },
   city: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 10,
+    marginBottom: 10,
   },
   icon: {
     marginRight: 7,
