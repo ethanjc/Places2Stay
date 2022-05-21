@@ -21,6 +21,7 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [heightAuto, setHeightAuto] = useState(false)
   const [searchHeight, setSearchHeight] = useState(307)
+  const [showSearch, setShowSearch] = useState(true)
 
   const handleChange = (text: string) => {
     setHeightAuto(true)
@@ -91,8 +92,20 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
     outputRange: [0, 0.17],
   })
 
+  const onCityPress = index => {
+    setHeightAuto(true)
+
+    LayoutAnimation.configureNext({
+      duration: 400,
+      update: { type: 'spring', springDamping: 0.7, initialVelocity: 10 },
+    })
+
+    setResults([results[index]])
+    setShowSearch(false)
+  }
+
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <TouchableWithoutFeedback style={styles.clickOff} onPress={onClickOff} />
       <Animated.View
         style={[
@@ -112,31 +125,43 @@ const Search = ({ style, navigation }: { style?: ViewStyle }) => {
               height: heightAuto ? 'auto' : heightAnimation,
               shadowOpacity: shadownAnimation,
             },
+            styles.expandedSearch,
           ]}
           onLayout={e =>
             heightAuto && setSearchHeight(e.nativeEvent.layout.height)
           }
         >
-          <TextInput
-            placeholder="Try 'Boston'"
-            onChangeText={handleChange}
-            style={styles.input}
-            placeholderTextColor="#858585"
-            autoFocus
-          />
-          <Animated.View style={[styles.content, { opacity: contentfadeIn }]}>
+          {showSearch && (
+            <TextInput
+              placeholder="Try 'Boston'"
+              onChangeText={handleChange}
+              style={styles.input}
+              placeholderTextColor="#858585"
+              autoFocus
+            />
+          )}
+          <Animated.View
+            style={[
+              styles.content,
+              { opacity: contentfadeIn, borderTopWidth: showSearch ? 1 : 0 },
+              showSearch && styles.contentSpacing,
+            ]}
+          >
             {results.length > 0 ? (
               results.map((city, index) => (
-                <View
+                <TouchableWithoutFeedback
                   key={city}
                   style={[
                     styles.city,
-                    { marginBottom: index === results.length - 1 ? 0 : 10 },
+                    {
+                      marginBottom: index === results.length - 1 ? 0 : 10,
+                    },
                   ]}
+                  onPress={() => onCityPress(index)}
                 >
                   <LocationIcon style={styles.icon} />
                   <Text>{city}</Text>
-                </View>
+                </TouchableWithoutFeedback>
               ))
             ) : (
               <Text>No places here yet :(</Text>
@@ -175,11 +200,17 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   content: {
-    marginTop: 15,
-    paddingTop: 15,
+    marginTop: 5,
     marginBottom: 5,
     borderTopWidth: 1,
     borderColor: 'rgba(0, 0, 0, 0.19)',
+  },
+  contentSpacing: {
+    marginTop: 15,
+    paddingTop: 15,
+  },
+  expandedContent: {
+    height: '100%',
   },
   city: {
     flexDirection: 'row',
