@@ -41,6 +41,7 @@ const Search = ({ navigation }) => {
   return (
     <SearchFlowContainer
       showSearch={showSearch}
+      expanded={!showSearch}
       handleChange={handleChange}
       onClose={navigation.goBack}
     >

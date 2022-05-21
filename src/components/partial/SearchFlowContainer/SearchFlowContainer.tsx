@@ -1,6 +1,12 @@
 import { Text } from '#/components/base'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { View, ViewStyle, StyleSheet, Animated } from 'react-native'
+import {
+  View,
+  ViewStyle,
+  StyleSheet,
+  LayoutAnimation,
+  Animated,
+} from 'react-native'
 import {
   TextInput,
   TouchableWithoutFeedback,
@@ -13,93 +19,75 @@ const Search = ({
   onClose,
   showSearch,
   handleChange,
+  expanded,
 }: {
   style?: ViewStyle
   showSearch: boolean
-  handleChange: (text: string) => void
+  handleChange: (text: string) => null
   onClose: () => void
+  expanded: boolean
 }) => {
-  const [heightAuto, setHeightAuto] = useState(false)
-  const [searchHeight, setSearchHeight] = useState(307)
-
   const safeArea = useSafeAreaInsets()
-  const paddingTopOutput = useMemo(() => [safeArea.top + 15, safeArea.top], [
-    safeArea,
-  ])
 
+  const [searchOpen, setSearchOpen] = useState(false)
   const contentfadeIn = useRef(new Animated.Value(0)).current
-  const closeFadeOut = useRef(new Animated.Value(1)).current
 
-  useEffect(() => {
-    Animated.spring(contentfadeIn, {
+  const onClickOff = () => {
+    LayoutAnimation.configureNext(
+      {
+        duration: 500,
+        update: {
+          type: 'spring',
+          springDamping: 1,
+        },
+      },
+      onClose,
+    )
+
+    Animated.timing(contentfadeIn, {
+      duration: 200,
+      toValue: 0,
+      useNativeDriver: false,
+    }).start()
+
+    setSearchOpen(false)
+  }
+
+  const openSearch = () => {
+    LayoutAnimation.configureNext({
+      duration: 700,
+      update: {
+        type: 'spring',
+        springDamping: 0.7,
+      },
+    })
+
+    Animated.timing(contentfadeIn, {
+      delay: 100,
+      duration: 200,
       toValue: 1,
       useNativeDriver: false,
     }).start()
-  })
 
-  const handleClose = () => {
-    Animated.timing(closeFadeOut, {
-      toValue: 0,
-      duration: 200,
-      useNativeDriver: false,
-    }).start(onClose)
+    setSearchOpen(true)
   }
-
-  const onClickOff = () => {
-    setHeightAuto(false)
-    Animated.spring(contentfadeIn, {
-      toValue: 0,
-      useNativeDriver: false,
-      overshootClamping: true,
-    }).start(handleClose)
-  }
-
-  const paddingHorizontalAnimation = contentfadeIn.interpolate({
-    inputRange: [0, 1],
-    outputRange: [40, 20],
-  })
-
-  const paddingTopAnimation = contentfadeIn.interpolate({
-    inputRange: [0, 1],
-    outputRange: paddingTopOutput,
-  })
-
-  const heightAnimation = contentfadeIn.interpolate({
-    inputRange: [0, 1],
-    outputRange: [54, searchHeight],
-  })
-
-  const shadownAnimation = contentfadeIn.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 0.17],
-  })
 
   return (
     <View>
       <TouchableWithoutFeedback style={styles.clickOff} onPress={onClickOff} />
-      <Animated.View
+      <View
         style={[
           styles.container,
-          {
-            marginTop: paddingTopAnimation,
-            marginHorizontal: paddingHorizontalAnimation,
-            opacity: closeFadeOut,
-          },
-          !showSearch && styles.expandedContent,
+          searchOpen && styles.containerOpen,
+          expanded && styles.containerExpanded,
         ]}
       >
-        <Animated.View
+        <View
           style={[
             styles.search,
-            style,
-            {
-              height: 'auto',
-              shadowOpacity: shadownAnimation,
-            },
+            styles.searchOpen,
+            { marginTop: safeArea.top + (searchOpen ? 0 : 15) },
           ]}
-          onLayout={e =>
-            heightAuto && setSearchHeight(e.nativeEvent.layout.height)
-          }
         >
           {showSearch && (
             <TextInput
@@ -108,19 +96,20 @@ const Search = ({
               style={styles.input}
               placeholderTextColor="#858585"
               autoFocus
+              onFocus={openSearch}
             />
           )}
           <Animated.View
             style={[
-              styles.content,
+              searchOpen ? styles.contentOpen : styles.contentClosed,
+              expanded && styles.contentExpanded,
               { opacity: contentfadeIn },
-              showSearch ? styles.contentSpacing : styles.contentBorder,
             ]}
           >
             {children}
           </Animated.View>
-        </Animated.View>
-      </Animated.View>
+        </View>
+      </View>
     </View>
   )
 }
@@ -130,6 +119,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+    marginHorizontal: 39,
+  },
+  containerOpen: {
+    marginHorizontal: 20,
+  },
+  containerExpanded: {
+    marginHorizontal: 0,
+    height: '100%',
   },
   search: {
     overflow: 'hidden',
@@ -151,22 +148,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexGrow: 1,
   },
-  content: {
-    marginTop: 5,
-    marginBottom: 5,
-    borderTopWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.19)',
+  searchOpen: {},
+  contentClosed: {
+    height: 0,
+    overflow: 'hidden',
   },
-  contentSpacing: {
+  contentOpen: {
     marginTop: 15,
     paddingTop: 15,
+    marginBottom: 5,
+    borderColor: 'rgba(0, 0, 0, 0.19)',
+    borderTopWidth: 1,
   },
-  contentBorder: {
-    borderTopWidth: 0,
-  },
-  expandedContent: {
+  contentExpanded: {
     height: '100%',
-    marginHorizontal: 0,
+    borderTopWidth: 0,
+    marginTop: 10,
+    paddingTop: 0,
   },
   input: {
     fontSize: 16,
