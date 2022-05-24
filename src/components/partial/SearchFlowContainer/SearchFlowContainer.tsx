@@ -55,7 +55,7 @@ const Search = ({
 
   const openSearch = () => {
     LayoutAnimation.configureNext({
-      duration: 700,
+      duration: 600,
       update: {
         type: 'spring',
         springDamping: 0.7,

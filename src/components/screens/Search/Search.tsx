@@ -36,6 +36,8 @@ const Search = ({ navigation }) => {
 
     setResults([results[index]])
     setShowSearch(false)
+
+    navigation.setOptions({ gestureEnabled: true })
   }
 
   return (

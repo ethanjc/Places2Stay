@@ -13,8 +13,13 @@ import { Home, Stay, Search, Calendar } from '#/components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
-import { TransitionPresets } from '@react-navigation/stack'
+import {
+  CardStyleInterpolators,
+  TransitionPresets,
+  TransitionSpecs,
+} from '@react-navigation/stack'
 import { CalendarIcon, HomeIcon } from '#/components/base/Icon'
+import { Animated, Dimensions, Easing } from 'react-native'
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator()
@@ -49,6 +54,13 @@ const TabNavigator = () => {
   )
 }
 
+const config = {
+  animation: 'timing' as 'timing',
+  config: {
+    duration: 0,
+  },
+}
+
 const App = () => {
   const Stack = createSharedElementStackNavigator()
 
@@ -60,7 +72,7 @@ const App = () => {
           name="Stay"
           component={Stay}
           options={{
-            ...TransitionPresets.ModalPresentationIOS,
+            ...TransitionPresets.ModalSlideFromBottomIOS,
             presentation: 'transparentModal',
             gestureResponseDistance: 280,
           }}
@@ -69,8 +81,13 @@ const App = () => {
           name="Search"
           component={Search}
           options={{
+            ...TransitionPresets.ModalSlideFromBottomIOS,
             presentation: 'transparentModal',
-            animationEnabled: false,
+            transitionSpec: {
+              open: config,
+              close: TransitionSpecs.TransitionIOSSpec,
+            },
+            gestureEnabled: false,
           }}
         />
       </Stack.Navigator>
