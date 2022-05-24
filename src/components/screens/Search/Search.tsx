@@ -1,16 +1,30 @@
 import { Text } from '#/components/base'
-import React, { useState } from 'react'
-import { StyleSheet, LayoutAnimation } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, LayoutAnimation, Button } from 'react-native'
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
 import { LocationIcon } from '#/components/base/Icon'
 import Fuse from 'fuse.js'
-import { SearchFlowContainer } from '#/components/partial'
+import {
+  SearchDatePicker,
+  SearchFlowContainer,
+  SearchPeoplePicker,
+  SearchResults,
+  SearchTypePicker,
+} from '#/components/partial'
+import { Wizard, Step, Breadcrumb } from 'digi-rn-wizard'
+import { View } from 'react-native-animatable'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Search = ({ navigation }) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [showSearch, setShowSearch] = useState(true)
+  const wizardRef = useRef(null)
+  const bottom = useSafeAreaInsets().bottom
 
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({
@@ -37,8 +51,10 @@ const Search = ({ navigation }) => {
     setResults([results[index]])
     setShowSearch(false)
 
-    navigation.setOptions({ gestureEnabled: true })
+    navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
   }
+
+  console.log(wizardRef.current)
 
   return (
     <SearchFlowContainer
@@ -47,37 +63,60 @@ const Search = ({ navigation }) => {
       handleChange={handleChange}
       onClose={navigation.goBack}
     >
-      {results.length > 0 ? (
-        results.map((city, index) => (
-          <TouchableWithoutFeedback
-            key={city}
-            style={[
-              styles.city,
-              {
-                marginBottom: index === results.length - 1 ? 0 : 10,
-              },
-            ]}
-            onPress={() => onCityPress(index)}
-          >
-            <LocationIcon style={styles.icon} />
-            <Text>{city}</Text>
-          </TouchableWithoutFeedback>
-        ))
-      ) : (
-        <Text>No places here yet :(</Text>
+      <SearchResults results={results} onCityPress={onCityPress} />
+      {!showSearch && (
+        <>
+          <Wizard ref={wizardRef} style={styles.wizard}>
+            <Step>
+              <SearchTypePicker />
+            </Step>
+            <Step>
+              <SearchDatePicker />
+            </Step>
+            <Step>
+              <SearchPeoplePicker />
+            </Step>
+          </Wizard>
+          <View style={[styles.navigator, { marginBottom: bottom + 10 }]}>
+            <TouchableOpacity
+              onPress={() => wizardRef?.current?.prev()}
+              style={styles.backButton}
+            >
+              <Text style={styles.back}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => wizardRef?.current?.next()}
+              style={styles.nextButton}
+            >
+              <Text color="#fff">Next</Text>
+            </TouchableOpacity>
+          </View>
+        </>
       )}
     </SearchFlowContainer>
   )
 }
 
 const styles = StyleSheet.create({
-  city: {
+  wizard: { flex: 1 },
+  navigator: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
   },
-  icon: {
-    marginRight: 7,
+  nextButton: {
+    width: 120,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4169E1',
+    borderRadius: 8,
+  },
+  backButton: {
+    marginLeft: 10,
+  },
+  back: {
+    textDecorationLine: 'underline',
   },
 })
 

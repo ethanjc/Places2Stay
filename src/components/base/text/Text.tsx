@@ -17,6 +17,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'Bitter',
   },
+  body2: {
+    fontSize: 16,
+    lineHeight: 19,
+    fontFamily: 'Encodesans-Regular',
+  },
 })
 
 export default Text

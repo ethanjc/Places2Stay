@@ -88,6 +88,7 @@ const App = () => {
               close: TransitionSpecs.TransitionIOSSpec,
             },
             gestureEnabled: false,
+            animationEnabled: false,
           }}
         />
       </Stack.Navigator>
