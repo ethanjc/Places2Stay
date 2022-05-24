@@ -1,5 +1,5 @@
 import { Text } from '#/components/base'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   ViewStyle,

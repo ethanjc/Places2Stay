@@ -1,12 +1,8 @@
 import { Text } from '#/components/base'
 import React, { useRef, useState } from 'react'
-import { StyleSheet, LayoutAnimation, Button } from 'react-native'
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler'
+import { StyleSheet, LayoutAnimation } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
-import { LocationIcon } from '#/components/base/Icon'
 import Fuse from 'fuse.js'
 import {
   SearchDatePicker,
@@ -15,11 +11,12 @@ import {
   SearchResults,
   SearchTypePicker,
 } from '#/components/partial'
-import { Wizard, Step, Breadcrumb } from 'digi-rn-wizard'
+import { Wizard, Step } from 'digi-rn-wizard'
 import { View } from 'react-native-animatable'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { NavigationProp } from '@react-navigation/native'
 
-const Search = ({ navigation }) => {
+const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [showSearch, setShowSearch] = useState(true)
@@ -53,8 +50,6 @@ const Search = ({ navigation }) => {
 
     navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
   }
-
-  console.log(wizardRef.current)
 
   return (
     <SearchFlowContainer

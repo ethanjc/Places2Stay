@@ -6,7 +6,7 @@ import _ from 'lodash'
 
 import { Props } from './Toggle.types'
 
-const Card = ({ onToggle, values, selected = 0 }: Props) => {
+const Card = ({ onToggle, values, selected = 0, style }: Props) => {
   const [widths, setWidths] = useState([0, 0])
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -57,7 +57,7 @@ const Card = ({ onToggle, values, selected = 0 }: Props) => {
   }, [selected, onPress])
 
   return (
-    <View style={styles.toggle}>
+    <View style={[styles.toggle, style]}>
       <Animated.View
         style={[
           styles.thumb,
@@ -95,14 +95,13 @@ const styles = StyleSheet.create({
     borderRadius: 47,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'flex-start',
     position: 'relative',
   },
   option: {
     margin: 5,
     height: 37,
     justifyContent: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
   },
   last: {
     marginLeft: 0,
