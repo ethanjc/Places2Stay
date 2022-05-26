@@ -1,16 +1,62 @@
 import { Toggle } from '#/components/base'
 import React, { useMemo, useState } from 'react'
 import { Text, StyleSheet, View, Dimensions } from 'react-native'
-import CalendarPicker from 'react-native-calendar-picker'
+import { CalendarList } from 'react-native-calendars'
 import FlexiblePicker from './FlexiblePicker'
 
 const SearchDatePicker = () => {
-  const minDate = useMemo(() => new Date(), [])
+  const minDate = useMemo(() => new Date().toISOString(), [])
   const width = Dimensions.get('window').width
   const [selected, setSelected] = useState(0)
 
+  const [markedDates, setMarkedDates] = useState({})
+
   const onToggle = (index: number) => {
     setSelected(index)
+  }
+
+  const onDateSelect = ({ dateString }) => {
+    const dates = Object.keys(markedDates)
+
+    if (dates.length !== 1) {
+      setMarkedDates({
+        [dateString]: {
+          startingDay: true,
+          endingDay: true,
+          color: '#4169E1',
+          textColor: 'white',
+        },
+      })
+    } else {
+      const firstDate = new Date(dates[0])
+      const secondDate = new Date(dateString)
+
+      const [startDate, endDate] =
+        firstDate < secondDate
+          ? [firstDate, secondDate]
+          : [secondDate, firstDate]
+
+      let newMarkedDates = {}
+
+      for (
+        let date = new Date(startDate);
+        date <= endDate;
+        date.setDate(date.getDate() + 1)
+      ) {
+        const currentDateString = date.toISOString().substring(0, 10)
+        const isStartDay = date.getDate() === startDate.getDate()
+        const isEndDay = date.getDate() === endDate.getDate()
+
+        newMarkedDates[currentDateString] = {
+          startingDay: isStartDay,
+          endingDay: isEndDay,
+          color: isStartDay || isEndDay ? '#4169E1' : 'rgb(173, 216, 230)',
+          textColor: isStartDay || isEndDay ? '#fff' : '#000',
+        }
+      }
+
+      setMarkedDates(newMarkedDates)
+    }
   }
 
   return (
@@ -23,16 +69,13 @@ const SearchDatePicker = () => {
       />
 
       {selected === 0 ? (
-        <CalendarPicker
+        <CalendarList
+          style={{ width: width - 70 }}
+          onDayPress={onDateSelect}
           minDate={minDate}
-          allowRangeSelection
-          todayBackgroundColor="rgb(182, 215, 228)"
-          selectedDayColor="rgb(182, 215, 228)"
-          selectedRangeStartStyle={styles.rangeEnds}
-          selectedRangeStartTextStyle={styles.rangeEndsText}
-          selectedRangeEndTextStyle={styles.rangeEndsText}
-          selectedRangeEndStyle={styles.rangeEnds}
-          width={width - 40}
+          markingType={'period'}
+          markedDates={markedDates}
+          pastScrollRange={0}
         />
       ) : (
         <FlexiblePicker />
@@ -43,8 +86,10 @@ const SearchDatePicker = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
     alignItems: 'center',
+    overflow: 'hidden',
+    flex: 1,
+    marginBottom: 20,
   },
   toggle: {
     marginBottom: 20,

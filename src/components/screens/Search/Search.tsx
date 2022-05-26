@@ -1,6 +1,6 @@
 import { Text } from '#/components/base'
 import React, { useRef, useState } from 'react'
-import { StyleSheet, LayoutAnimation } from 'react-native'
+import { StyleSheet, LayoutAnimation, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
 import Fuse from 'fuse.js'
@@ -10,6 +10,7 @@ import {
   SearchPeoplePicker,
   SearchResults,
   SearchTypePicker,
+  SearchWizardStep,
 } from '#/components/partial'
 import { Wizard, Step } from 'digi-rn-wizard'
 import { View } from 'react-native-animatable'
@@ -20,8 +21,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [showSearch, setShowSearch] = useState(true)
-  const wizardRef = useRef(null)
-  const bottom = useSafeAreaInsets().bottom
+  const [openIndex, setOpenIndex] = useState<null | number>(null)
 
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({
@@ -45,10 +45,26 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
       update: { type: 'spring', springDamping: 0.8, initialVelocity: 10 },
     })
 
-    setResults([results[index]])
-    setShowSearch(false)
+    if (showSearch) {
+      setResults([results[index]])
+      setShowSearch(false)
+      setOpenIndex(0)
 
-    navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
+      navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
+    } else {
+      setShowSearch(true)
+      setResults(searchMockData.cities)
+
+      navigation.setOptions({ gestureEnabled: false, animationEnabled: false })
+    }
+  }
+
+  const updateOpenIndex = newIndex => {
+    setOpenIndex(newIndex)
+  }
+
+  const onNext = index => {
+    updateOpenIndex(index + 1)
   }
 
   return (
@@ -61,31 +77,24 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
       <SearchResults results={results} onCityPress={onCityPress} />
       {!showSearch && (
         <>
-          <Wizard ref={wizardRef} style={styles.wizard}>
-            <Step>
-              <SearchTypePicker />
-            </Step>
-            <Step>
-              <SearchDatePicker />
-            </Step>
-            <Step>
-              <SearchPeoplePicker />
-            </Step>
-          </Wizard>
-          <View style={[styles.navigator, { marginBottom: bottom + 10 }]}>
-            <TouchableOpacity
-              onPress={() => wizardRef?.current?.prev()}
-              style={styles.backButton}
-            >
-              <Text style={styles.back}>Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => wizardRef?.current?.next()}
-              style={styles.nextButton}
-            >
-              <Text color="#fff">Next</Text>
-            </TouchableOpacity>
-          </View>
+          <SearchWizardStep
+            titleEnd="'s your trip?"
+            title="When"
+            showButtons={false}
+            open={openIndex === 0}
+            onPress={() => updateOpenIndex(0)}
+            onNext={() => onNext(0)}
+          >
+            <SearchDatePicker />
+          </SearchWizardStep>
+          <SearchWizardStep
+            titleEnd="'s comming?"
+            title="Who"
+            open={openIndex === 1}
+            onPress={() => updateOpenIndex(1)}
+          >
+            <SearchTypePicker />
+          </SearchWizardStep>
         </>
       )}
     </SearchFlowContainer>

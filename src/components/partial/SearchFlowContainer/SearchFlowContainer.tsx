@@ -1,4 +1,3 @@
-import { Text } from '#/components/base'
 import React, { useRef, useState } from 'react'
 import {
   View,
@@ -14,14 +13,12 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const Search = ({
-  style,
   children,
   onClose,
   showSearch,
   handleChange,
   expanded,
 }: {
-  style?: ViewStyle
   showSearch: boolean
   handleChange: (text: string) => null
   onClose: () => void
@@ -85,7 +82,7 @@ const Search = ({
         <View
           style={[
             styles.search,
-            styles.searchOpen,
+            expanded && styles.searchExpanded,
             { marginTop: safeArea.top + (searchOpen ? 0 : 15) },
           ]}
         >
@@ -119,6 +116,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
+    top: 0,
     marginHorizontal: 39,
   },
   containerOpen: {
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
   },
   containerExpanded: {
     marginHorizontal: 0,
-    height: '100%',
+    bottom: 0,
   },
   search: {
     overflow: 'hidden',
@@ -146,9 +144,10 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderRadius: 30,
     paddingHorizontal: 30,
-    flexGrow: 1,
   },
-  searchOpen: {},
+  searchExpanded: {
+    flex: 1,
+  },
   contentClosed: {
     height: 0,
     overflow: 'hidden',
@@ -161,10 +160,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   contentExpanded: {
-    height: '100%',
     borderTopWidth: 0,
     marginTop: 10,
+    marginBottom: 15,
     paddingTop: 0,
+    flexGrow: 1,
   },
   input: {
     fontSize: 16,
