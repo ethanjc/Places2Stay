@@ -26,7 +26,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({
       duration: 400,
-      update: { type: 'spring', springDamping: 0.7, initialVelocity: 10 },
+      update: { type: 'spring', springDamping: 0.7 },
     })
 
     if (text.length === 0) {
@@ -40,15 +40,17 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   }
 
   const onCityPress = index => {
-    LayoutAnimation.configureNext({
-      duration: 500,
-      update: { type: 'spring', springDamping: 0.8, initialVelocity: 10 },
-    })
+    LayoutAnimation.configureNext(
+      {
+        duration: 500,
+        update: { type: 'spring', springDamping: 0.8 },
+      },
+      () => setOpenIndex(0),
+    )
 
     if (showSearch) {
       setResults([results[index]])
       setShowSearch(false)
-      setOpenIndex(0)
 
       navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
     } else {

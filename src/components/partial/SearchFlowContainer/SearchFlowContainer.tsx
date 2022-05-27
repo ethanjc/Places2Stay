@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import { BlurView } from '@react-native-community/blur'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   ViewStyle,
@@ -28,6 +29,7 @@ const Search = ({
 
   const [searchOpen, setSearchOpen] = useState(false)
   const contentfadeIn = useRef(new Animated.Value(0)).current
+  const blurFade = useRef(new Animated.Value(1)).current
 
   const onClickOff = () => {
     LayoutAnimation.configureNext(
@@ -69,6 +71,19 @@ const Search = ({
     setSearchOpen(true)
   }
 
+  useEffect(() => {
+    Animated.timing(blurFade, {
+      duration: 500,
+      toValue: expanded ? 0 : 1,
+      useNativeDriver: false,
+    }).start()
+  }, [expanded, blurFade])
+
+  const backgroundColorAnimation = blurFade.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 1)'],
+  })
+
   return (
     <View>
       <TouchableWithoutFeedback style={styles.clickOff} onPress={onClickOff} />
@@ -79,33 +94,42 @@ const Search = ({
           expanded && styles.containerExpanded,
         ]}
       >
-        <View
-          style={[
-            styles.search,
-            expanded && styles.searchExpanded,
-            { marginTop: safeArea.top + (searchOpen ? 0 : 15) },
-          ]}
+        <BlurView
+          blurType="regular"
+          style={{
+            flex: 1,
+            marginTop: safeArea.top + (searchOpen ? 0 : 15),
+            borderRadius: 30,
+          }}
         >
-          {showSearch && (
-            <TextInput
-              placeholder="Try 'Boston'"
-              onChangeText={handleChange}
-              style={styles.input}
-              placeholderTextColor="#858585"
-              autoFocus
-              onFocus={openSearch}
-            />
-          )}
           <Animated.View
             style={[
-              searchOpen ? styles.contentOpen : styles.contentClosed,
-              expanded && styles.contentExpanded,
-              { opacity: contentfadeIn },
+              styles.search,
+              expanded && styles.searchExpanded,
+              { backgroundColor: backgroundColorAnimation },
             ]}
           >
-            {children}
+            {showSearch && (
+              <TextInput
+                placeholder="Try 'Boston'"
+                onChangeText={handleChange}
+                style={styles.input}
+                placeholderTextColor="#858585"
+                autoFocus
+                onFocus={openSearch}
+              />
+            )}
+            <Animated.View
+              style={[
+                searchOpen ? styles.contentOpen : styles.contentClosed,
+                expanded && styles.contentExpanded,
+                { opacity: contentfadeIn },
+              ]}
+            >
+              {children}
+            </Animated.View>
           </Animated.View>
-        </View>
+        </BlurView>
       </View>
     </View>
   )
@@ -130,7 +154,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: 'rgba(0, 0, 0, 0.19)',
     borderStyle: 'solid',
-    backgroundColor: '#fff',
+    //backgroundColor: '#fff',
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: {
@@ -144,6 +168,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     borderRadius: 30,
     paddingHorizontal: 30,
+    backgroundColor: '#fff',
   },
   searchExpanded: {
     flex: 1,
