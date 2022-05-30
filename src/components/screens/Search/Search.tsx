@@ -95,7 +95,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
             open={openIndex === 1}
             onPress={() => updateOpenIndex(1)}
           >
-            <SearchTypePicker />
+            <SearchPeoplePicker />
           </SearchWizardStep>
         </>
       )}

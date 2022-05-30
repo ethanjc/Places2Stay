@@ -25,8 +25,7 @@ const SearchTypePicker = ({
       update: { type: 'spring', springDamping: 0.9, initialVelocity: 5 },
     })
 
-    Animated.timing(titleAnimation, {
-      duration: 300,
+    Animated.spring(titleAnimation, {
       toValue: open ? 1 : 0,
       useNativeDriver: false,
     }).start()
@@ -60,25 +59,29 @@ const SearchTypePicker = ({
 
   return (
     <View style={[styles.container, { flex: isOpen ? 1 : 0 }]}>
-      <TouchableWithoutFeedback onPress={onPress}>
-        <Animated.View style={[styles.titleContainer, titleContainerStyles]}>
-          <Animated.Text style={titleStyles}>{title}</Animated.Text>
-          <Animated.View style={[{ opacity: titleAnimation }]}>
-            <Animated.Text style={titleStyles}>{titleEnd}</Animated.Text>
+      {title && (
+        <TouchableWithoutFeedback onPress={onPress}>
+          <Animated.View style={[styles.titleContainer, titleContainerStyles]}>
+            <Animated.Text style={titleStyles}>{title}</Animated.Text>
+            <Animated.View style={[{ opacity: titleAnimation }]}>
+              <Animated.Text style={titleStyles}>{titleEnd}</Animated.Text>
+            </Animated.View>
           </Animated.View>
-        </Animated.View>
-      </TouchableWithoutFeedback>
-      <View style={styles.childContainer}>{children}</View>
-      {showButtons && isOpen && (
-        <View style={styles.navigator}>
-          <TouchableOpacity style={styles.backButton} onPress={onNext}>
-            <Text style={styles.back}>Skip</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-            <Text color="#fff">Next</Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableWithoutFeedback>
       )}
+      <View style={[styles.childContainer, { height: isOpen ? 'auto' : 0 }]}>
+        {children}
+        {showButtons && (
+          <View style={styles.navigator}>
+            <TouchableOpacity style={styles.backButton} onPress={onNext}>
+              <Text style={styles.back}>Skip</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.nextButton} onPress={onNext}>
+              <Text color="#fff">Next</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </View>
   )
 }
@@ -119,13 +122,14 @@ const styles = StyleSheet.create({
   childContainer: {
     position: 'relative',
     flex: 1,
+    flexShrink: 0,
+    overflow: 'hidden',
   },
   bigTitle: {
     fontSize: 22,
     lineHeight: 22,
     fontWeight: 'bold',
     marginTop: 10,
-    marginBottom: 20,
     marginLeft: 10,
   },
   titleContainer: {
