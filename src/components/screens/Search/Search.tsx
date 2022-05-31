@@ -1,5 +1,5 @@
 import { Text } from '#/components/base'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, LayoutAnimation } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import searchMockData from '#/static/searchMockData'
@@ -12,13 +12,19 @@ import {
   SearchWizardStep,
 } from '#/components/partial'
 import { View } from 'react-native-animatable'
-import { NavigationProp } from '@react-navigation/native'
+import { CommonActions, NavigationProp } from '@react-navigation/native'
 
-const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
+const Search = ({
+  navigation,
+  route,
+}: {
+  navigation: NavigationProp<any, any>
+}) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [showSearch, setShowSearch] = useState(true)
   const [openIndex, setOpenIndex] = useState<null | number>(null)
+  const [searched, setSearched] = useState<null | string>(null)
 
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({
@@ -55,6 +61,12 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
     if (showSearch) {
       setResults([results[index]])
       setShowSearch(false)
+      setSearched(results[index])
+
+      navigation.dispatch({
+        ...CommonActions.setParams({ searched: results[index] }),
+        source: route.params.homeKey,
+      })
 
       navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
     } else {
@@ -93,7 +105,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
       showSearch={showSearch}
       expanded={!showSearch}
       handleChange={handleChange}
-      onClose={navigation.goBack}
+      onClose={() => navigation.navigate('Home', { searched })}
     >
       <SearchResults results={results} onCityPress={onCityPress} />
       <View

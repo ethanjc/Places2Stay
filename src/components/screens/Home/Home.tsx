@@ -14,6 +14,8 @@ import { SectionHeader, PlaceCta, Search, CityCta } from '#/components/partial'
 import homeMockData from '#/static/homeMockData'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
+import { NavigationProp, RouteProp } from '@react-navigation/native'
+import { Text } from '#/components/base'
 
 const Header = ({ openSearch }: { openSearch: () => void }) => {
   const safeArea = useSafeAreaInsets()
@@ -46,7 +48,13 @@ const Footer = () => (
   </View>
 )
 
-const Home = ({ navigation }) => {
+const Home = ({
+  navigation,
+  route,
+}: {
+  navigation: NavigationProp<any, any>
+  route: RouteProp<any, any>
+}) => {
   const renderItem = ({
     item: { id, image, imageLabel, title, location },
     index,
@@ -56,7 +64,11 @@ const Home = ({ navigation }) => {
         <View style={styles.horizontalPadding}>
           <SectionHeader
             style={styles.header}
-            title={homeMockData.sections.placeCtas.title}
+            title={
+              route?.params?.searched
+                ? `250+ Places in ${route?.params?.searched}`
+                : homeMockData.sections.placeCtas.title
+            }
             description={homeMockData.sections.placeCtas.description}
           />
         </View>
@@ -74,7 +86,7 @@ const Home = ({ navigation }) => {
     </>
   )
 
-  const openSearch = () => navigation.navigate('Search')
+  const openSearch = () => navigation.navigate('Search', { homeKey: route.key })
 
   return (
     <View style={styles.background}>

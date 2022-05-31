@@ -36,6 +36,7 @@ const FlexiblePicker = () => {
       <View style={styles.lengths}>
         {lengths.map((length, index) => (
           <TouchableOpacity
+            key={length}
             onPress={() => setSelectedLength(index)}
             style={styles.length}
           >
@@ -53,6 +54,7 @@ const FlexiblePicker = () => {
       <ScrollView horizontal style={styles.months}>
         {comingMonths.map(({ month, year }) => (
           <TouchableOpacity
+            key={`${month}-${year}`}
             style={styles.month}
             onPress={() => setMonths([...months, month])}
           >

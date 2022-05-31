@@ -1,6 +1,6 @@
 import { Toggle } from '#/components/base'
 import React, { useMemo, useState } from 'react'
-import { Text, StyleSheet, View, Dimensions } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import FlexiblePicker from './FlexiblePicker'
 
