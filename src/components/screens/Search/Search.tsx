@@ -15,13 +15,9 @@ import { View } from 'react-native-animatable'
 import { CommonActions, NavigationProp } from '@react-navigation/native'
 import { useParams } from '../../../../App'
 import { format } from 'date-fns'
+import { TransitionPresets } from '@react-navigation/stack'
 
-const Search = ({
-  navigation,
-  route,
-}: {
-  navigation: NavigationProp<any, any>
-}) => {
+const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const [results, setResults] = useState(searchMockData.cities)
   const fuse = new Fuse(searchMockData.cities, { threshold: 0.4 })
   const [showSearch, setShowSearch] = useState(true)
@@ -87,7 +83,23 @@ const Search = ({
   }
 
   const onNext = () => {
-    updateOpenIndex(openIndex || 0 + 1)
+    if (openIndex === 1) {
+      navigation.setOptions({ ...TransitionPresets.ModalFadeTransition })
+      LayoutAnimation.configureNext(
+        {
+          duration: 500,
+          update: { type: 'spring', springDamping: 0.8 },
+        },
+        navigation.goBack,
+      )
+
+      setResults(null)
+      setShowSearch(true)
+
+      return
+    }
+
+    updateOpenIndex((openIndex || 0) + 1)
   }
 
   const onBack = () => {
@@ -133,7 +145,7 @@ const Search = ({
       handleChange={handleChange}
       onClose={() => navigation.navigate('Home', { searched })}
     >
-      <SearchResults results={results} onCityPress={onCityPress} />
+      {results && <SearchResults results={results} onCityPress={onCityPress} />}
       <View
         style={[
           styles.searchContainer,
@@ -167,7 +179,7 @@ const Search = ({
             <Text style={styles.back}>Back</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-            <Text color="#fff">Next</Text>
+            <Text color="#fff">{openIndex === 1 ? 'Search' : 'Next'}</Text>
           </TouchableOpacity>
         </View>
       </View>
