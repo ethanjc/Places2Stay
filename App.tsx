@@ -8,18 +8,24 @@
  * @format
  */
 
-import React from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { Home, Stay, Search, Calendar } from '#/components/screens'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element'
-import {
-  CardStyleInterpolators,
-  TransitionPresets,
-  TransitionSpecs,
-} from '@react-navigation/stack'
+import { TransitionPresets, TransitionSpecs } from '@react-navigation/stack'
 import { CalendarIcon, HomeIcon } from '#/components/base/Icon'
-import { Animated, Dimensions, Easing } from 'react-native'
+
+const ParamsContext = createContext({})
+const ParamsProvider = ({ children }) => {
+  const state = useState({})
+
+  return (
+    <ParamsContext.Provider value={state}>{children}</ParamsContext.Provider>
+  )
+}
+
+export const useParams = () => useContext(ParamsContext)
 
 const TabNavigator = () => {
   const Tab = createBottomTabNavigator()
@@ -65,34 +71,36 @@ const App = () => {
   const Stack = createSharedElementStackNavigator()
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={TabNavigator} />
-        <Stack.Screen
-          name="Stay"
-          component={Stay}
-          options={{
-            ...TransitionPresets.ModalSlideFromBottomIOS,
-            presentation: 'transparentModal',
-            gestureResponseDistance: 280,
-          }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-          options={{
-            ...TransitionPresets.ModalSlideFromBottomIOS,
-            presentation: 'transparentModal',
-            transitionSpec: {
-              open: config,
-              close: TransitionSpecs.TransitionIOSSpec,
-            },
-            gestureEnabled: false,
-            animationEnabled: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ParamsProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={TabNavigator} />
+          <Stack.Screen
+            name="Stay"
+            component={Stay}
+            options={{
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              presentation: 'transparentModal',
+              gestureResponseDistance: 280,
+            }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={Search}
+            options={{
+              ...TransitionPresets.ModalSlideFromBottomIOS,
+              presentation: 'transparentModal',
+              transitionSpec: {
+                open: config,
+                close: TransitionSpecs.TransitionIOSSpec,
+              },
+              gestureEnabled: false,
+              animationEnabled: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ParamsProvider>
   )
 }
 

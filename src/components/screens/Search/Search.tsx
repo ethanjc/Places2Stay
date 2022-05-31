@@ -13,6 +13,8 @@ import {
 } from '#/components/partial'
 import { View } from 'react-native-animatable'
 import { CommonActions, NavigationProp } from '@react-navigation/native'
+import { useParams } from '../../../../App'
+import { format } from 'date-fns'
 
 const Search = ({
   navigation,
@@ -25,6 +27,8 @@ const Search = ({
   const [showSearch, setShowSearch] = useState(true)
   const [openIndex, setOpenIndex] = useState<null | number>(null)
   const [searched, setSearched] = useState<null | string>(null)
+
+  const [homeParams, setHomeParams] = useParams()
 
   const handleChange = (text: string) => {
     LayoutAnimation.configureNext({
@@ -49,6 +53,13 @@ const Search = ({
     navigation.setOptions({ gestureEnabled: false, animationEnabled: false })
   }
 
+  const updateHomeParams = newParams => {
+    setHomeParams({
+      ...homeParams,
+      ...newParams,
+    })
+  }
+
   const onCityPress = (index: number) => {
     LayoutAnimation.configureNext(
       {
@@ -63,10 +74,7 @@ const Search = ({
       setShowSearch(false)
       setSearched(results[index])
 
-      navigation.dispatch({
-        ...CommonActions.setParams({ searched: results[index] }),
-        source: route.params.homeKey,
-      })
+      updateHomeParams({ searched: results[index] })
 
       navigation.setOptions({ gestureEnabled: true, animationEnabled: true })
     } else {
@@ -100,6 +108,24 @@ const Search = ({
     }
   }
 
+  const handleDatePicked = dates => {
+    const formattedDates = dates.map(date => format(date, 'MMM do'))
+
+    updateHomeParams({ dates: formattedDates })
+  }
+
+  const handlePeoplePicked = people => {
+    let selectedPeople = []
+
+    Object.keys(people).forEach(person => {
+      if (people[person] > 0) {
+        selectedPeople.push(`${people[person]} ${person}`)
+      }
+    })
+
+    updateHomeParams({ people: selectedPeople })
+  }
+
   return (
     <SearchFlowContainer
       showSearch={showSearch}
@@ -125,7 +151,7 @@ const Search = ({
             open={openIndex === 0}
             onPress={() => updateOpenIndex(0)}
           >
-            <SearchDatePicker />
+            <SearchDatePicker onDatePicked={handleDatePicked} />
           </SearchWizardStep>
           <SearchWizardStep
             titleEnd="'s comming?"
@@ -133,7 +159,7 @@ const Search = ({
             open={openIndex === 1}
             onPress={() => updateOpenIndex(1)}
           >
-            <SearchPeoplePicker />
+            <SearchPeoplePicker onPeoplePicked={handlePeoplePicked} />
           </SearchWizardStep>
         </View>
         <View style={styles.navigator}>

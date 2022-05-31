@@ -4,7 +4,7 @@ import { StyleSheet, View, Dimensions } from 'react-native'
 import { CalendarList } from 'react-native-calendars'
 import FlexiblePicker from './FlexiblePicker'
 
-const SearchDatePicker = () => {
+const SearchDatePicker = ({ onDatePicked }: { onDatePicked: ([]) => void }) => {
   const minDate = useMemo(() => new Date().toISOString(), [])
   const width = Dimensions.get('window').width
   const [selected, setSelected] = useState(0)
@@ -35,6 +35,8 @@ const SearchDatePicker = () => {
         firstDate < secondDate
           ? [firstDate, secondDate]
           : [secondDate, firstDate]
+
+      onDatePicked([startDate, endDate])
 
       let newMarkedDates = {}
 

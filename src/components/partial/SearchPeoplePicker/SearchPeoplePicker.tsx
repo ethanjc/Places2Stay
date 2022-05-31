@@ -41,23 +41,29 @@ const Picker = ({
 )
 
 const initialState = {
-  adults: 1,
+  adults: 0,
   children: 0,
   infants: 0,
   pets: 0,
 } as const
 
-const reducer = (state, action) => {
-  const id = action.payload
-  switch (action.type) {
-    case 'increment':
-      return { ...state, [id]: state[id] + 1 }
-    case 'decrement':
-      return { ...state, [id]: state[id] - 1 }
-  }
-}
+const SearchPeoplePicker = ({
+  onPeoplePicked,
+}: {
+  onPeoplePicked: ({}) => void
+}) => {
+  const reducer = (state, action) => {
+    const id = action.payload
+    const newState = {
+      ...state,
+      [id]: state[id] + (action.type === 'increment' ? 1 : -1),
+    }
 
-const SearchPeoplePicker = () => {
+    onPeoplePicked(newState)
+
+    return newState
+  }
+
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const handleChange = (id: idTypes, add: boolean) => {

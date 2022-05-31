@@ -15,7 +15,7 @@ import homeMockData from '#/static/homeMockData'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
 import { NavigationProp, RouteProp } from '@react-navigation/native'
-import { Text } from '#/components/base'
+import { useParams } from '../../../../App'
 
 const Header = ({ openSearch }: { openSearch: () => void }) => {
   const safeArea = useSafeAreaInsets()
@@ -50,11 +50,12 @@ const Footer = () => (
 
 const Home = ({
   navigation,
-  route,
 }: {
   navigation: NavigationProp<any, any>
   route: RouteProp<any, any>
 }) => {
+  const [homeParams] = useParams()
+
   const renderItem = ({
     item: { id, image, imageLabel, title, location },
     index,
@@ -65,11 +66,20 @@ const Home = ({
           <SectionHeader
             style={styles.header}
             title={
-              route?.params?.searched
-                ? `250+ Places in ${route?.params?.searched}`
+              homeParams.searched
+                ? `250+ Places in ${homeParams.searched}`
                 : homeMockData.sections.placeCtas.title
             }
-            description={homeMockData.sections.placeCtas.description}
+            description={
+              homeParams.dates || homeParams.people
+                ? (homeParams.dates &&
+                    `From ${homeParams.dates[0]} to ${homeParams.dates[1]}`) +
+                  (homeParams.people &&
+                    `${
+                      homeParams.dates ? ' f' : 'F'
+                    }or ${homeParams.people.join(', ')}`)
+                : homeMockData.sections.placeCtas.description
+            }
           />
         </View>
       )}
@@ -86,7 +96,7 @@ const Home = ({
     </>
   )
 
-  const openSearch = () => navigation.navigate('Search', { homeKey: route.key })
+  const openSearch = () => navigation.navigate('Search')
 
   return (
     <View style={styles.background}>
