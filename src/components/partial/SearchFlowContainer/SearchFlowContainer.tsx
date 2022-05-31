@@ -1,12 +1,6 @@
 import { BlurView } from '@react-native-community/blur'
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  View,
-  ViewStyle,
-  StyleSheet,
-  LayoutAnimation,
-  Animated,
-} from 'react-native'
+import { View, StyleSheet, LayoutAnimation, Animated } from 'react-native'
 import {
   TextInput,
   TouchableWithoutFeedback,
@@ -20,8 +14,9 @@ const Search = ({
   handleChange,
   expanded,
 }: {
+  children: React.ReactNode
   showSearch: boolean
-  handleChange: (text: string) => null
+  handleChange: (text: string) => void
   onClose: () => void
   expanded: boolean
 }) => {
@@ -96,6 +91,7 @@ const Search = ({
       >
         <BlurView
           blurType="regular"
+          // eslint-disable-next-line react-native/no-inline-styles
           style={{
             flex: 1,
             marginTop: safeArea.top + (searchOpen ? 0 : 15),
@@ -154,7 +150,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderColor: 'rgba(0, 0, 0, 0.19)',
     borderStyle: 'solid',
-    //backgroundColor: '#fff',
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: {
@@ -186,10 +181,10 @@ const styles = StyleSheet.create({
   },
   contentExpanded: {
     borderTopWidth: 0,
-    marginTop: 10,
     marginBottom: 15,
     paddingTop: 0,
     flexGrow: 1,
+    marginTop: 10,
   },
   input: {
     fontSize: 16,

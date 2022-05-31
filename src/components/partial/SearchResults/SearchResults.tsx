@@ -8,7 +8,10 @@ import { View } from 'react-native-animatable'
 const SearchResults = ({
   results,
   onCityPress,
-}): { results: [{ city: string }] } => (
+}: {
+  results: string[]
+  onCityPress: (index: number) => void
+}) => (
   <View>
     {results.length > 0 ? (
       results.map((city, index) => (
@@ -16,6 +19,7 @@ const SearchResults = ({
           key={city}
           style={[
             styles.city,
+            // eslint-disable-next-line react-native/no-inline-styles
             {
               marginBottom: index === results.length - 1 ? 0 : 10,
             },

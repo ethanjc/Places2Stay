@@ -35,7 +35,7 @@ const Stay = ({ route }) => {
   return (
     <View style={[styles.root, { marginTop: safeArea.top }]}>
       <SharedElement id={`place-${id}`}>
-        <Animated.Image source={image} style={styles.img} />
+        <Image source={image} style={styles.img} />
       </SharedElement>
 
       <Animated.View style={[styles.content, { opacity: contentfadeIn }]}>
