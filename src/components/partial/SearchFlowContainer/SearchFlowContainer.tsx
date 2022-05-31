@@ -13,12 +13,14 @@ const Search = ({
   showSearch,
   handleChange,
   expanded,
+  willClose,
 }: {
   children: React.ReactNode
   showSearch: boolean
   handleChange: (text: string) => void
   onClose: () => void
   expanded: boolean
+  willClose: boolean
 }) => {
   const safeArea = useSafeAreaInsets()
 
@@ -72,7 +74,11 @@ const Search = ({
       toValue: expanded ? 0 : 1,
       useNativeDriver: false,
     }).start()
-  }, [expanded, blurFade])
+
+    if (willClose) {
+      onClickOff()
+    }
+  }, [expanded, blurFade, willClose, onClickOff])
 
   const backgroundColorAnimation = blurFade.interpolate({
     inputRange: [0, 1],

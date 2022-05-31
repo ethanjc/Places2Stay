@@ -23,6 +23,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const [showSearch, setShowSearch] = useState(true)
   const [openIndex, setOpenIndex] = useState<null | number>(null)
   const [searched, setSearched] = useState<null | string>(null)
+  const [isGoingToClose, setIsGoingToClose] = useState(false)
 
   const [homeParams, setHomeParams] = useParams()
 
@@ -84,17 +85,17 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
 
   const onNext = () => {
     if (openIndex === 1) {
-      navigation.setOptions({ ...TransitionPresets.ModalFadeTransition })
+      navigation.setOptions({ gestureEnabled: false, animationEnabled: false })
       LayoutAnimation.configureNext(
         {
           duration: 500,
-          update: { type: 'spring', springDamping: 0.8 },
+          update: { type: 'spring', springDamping: 1 },
         },
         navigation.goBack,
       )
 
-      setResults(null)
       setShowSearch(true)
+      setIsGoingToClose(true)
 
       return
     }
@@ -141,9 +142,10 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   return (
     <SearchFlowContainer
       showSearch={showSearch}
-      expanded={!showSearch}
+      expanded={!showSearch && !isGoingToClose}
       handleChange={handleChange}
       onClose={() => navigation.navigate('Home', { searched })}
+      willClose={isGoingToClose}
     >
       {results && <SearchResults results={results} onCityPress={onCityPress} />}
       <View
