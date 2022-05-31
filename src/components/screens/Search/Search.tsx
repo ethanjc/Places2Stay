@@ -96,36 +96,43 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
       onClose={navigation.goBack}
     >
       <SearchResults results={results} onCityPress={onCityPress} />
-      {!showSearch && (
-        <View style={styles.searchContainer}>
-          <View style={styles.wizardContainer}>
-            <SearchWizardStep
-              titleEnd="'s your trip?"
-              title="When"
-              open={openIndex === 0}
-              onPress={() => updateOpenIndex(0)}
-            >
-              <SearchDatePicker />
-            </SearchWizardStep>
-            <SearchWizardStep
-              titleEnd="'s comming?"
-              title="Who"
-              open={openIndex === 1}
-              onPress={() => updateOpenIndex(1)}
-            >
-              <SearchPeoplePicker />
-            </SearchWizardStep>
-          </View>
-          <View style={styles.navigator}>
-            <TouchableOpacity style={styles.backButton} onPress={onBack}>
-              <Text style={styles.back}>Back</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-              <Text color="#fff">Next</Text>
-            </TouchableOpacity>
-          </View>
+      <View
+        style={[
+          styles.searchContainer,
+          // eslint-disable-next-line react-native/no-inline-styles
+          {
+            height: showSearch ? 0 : '100%',
+            overflow: showSearch ? 'hidden' : 'visible',
+          },
+        ]}
+      >
+        <View style={styles.wizardContainer}>
+          <SearchWizardStep
+            titleEnd="'s your trip?"
+            title="When"
+            open={openIndex === 0}
+            onPress={() => updateOpenIndex(0)}
+          >
+            <SearchDatePicker />
+          </SearchWizardStep>
+          <SearchWizardStep
+            titleEnd="'s comming?"
+            title="Who"
+            open={openIndex === 1}
+            onPress={() => updateOpenIndex(1)}
+          >
+            <SearchPeoplePicker />
+          </SearchWizardStep>
         </View>
-      )}
+        <View style={styles.navigator}>
+          <TouchableOpacity style={styles.backButton} onPress={onBack}>
+            <Text style={styles.back}>Back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.nextButton} onPress={onNext}>
+            <Text color="#fff">Next</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SearchFlowContainer>
   )
 }
@@ -155,6 +162,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     justifyContent: 'space-between',
     flex: 1,
+    overflow: 'hidden',
   },
   wizardContainer: {
     flex: 1,
