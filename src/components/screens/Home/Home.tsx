@@ -16,9 +16,21 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
 import { NavigationProp, RouteProp } from '@react-navigation/native'
 import { useParams } from '../../../../App'
+import { gql, useQuery } from '@apollo/client'
+
+const CITIES = gql`
+  query GetCities {
+    cities {
+      title
+      id
+      image
+    }
+  }
+`
 
 const Header = ({ openSearch }: { openSearch: () => void }) => {
   const safeArea = useSafeAreaInsets()
+
   return (
     <>
       <LinearGradient
@@ -34,19 +46,30 @@ const Header = ({ openSearch }: { openSearch: () => void }) => {
   )
 }
 
-const Footer = () => (
-  <View>
-    <SectionHeader
-      title={homeMockData.sections.cityCtas.title}
-      style={styles.horizontalPadding}
-    />
-    <ScrollView horizontal style={styles.carousel}>
-      {homeMockData.sections.cityCtas.places.map(({ id, title, image }) => (
-        <CityCta style={styles.cityCta} key={id} title={title} image={image} />
-      ))}
-    </ScrollView>
-  </View>
-)
+const Footer = () => {
+  const { loading, error, data } = useQuery(CITIES)
+
+  return (
+    <View>
+      <SectionHeader
+        title={homeMockData.sections.cityCtas.title}
+        style={styles.horizontalPadding}
+      />
+      <ScrollView horizontal style={styles.carousel}>
+        {!loading &&
+          data.cities?.length &&
+          data.cities.map(({ id, title, image }) => (
+            <CityCta
+              style={styles.cityCta}
+              key={id}
+              title={title}
+              image={image}
+            />
+          ))}
+      </ScrollView>
+    </View>
+  )
+}
 
 const Home = ({
   navigation,

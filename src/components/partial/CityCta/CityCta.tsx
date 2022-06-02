@@ -4,12 +4,16 @@ import { View, Image, StyleSheet } from 'react-native'
 import { Text } from '#/components/base'
 import { Props } from './CityCta.types'
 
-const CityCta = ({ style, image, title }: Props) => (
-  <View style={style}>
-    <Image source={image} style={styles.img} />
-    <Text>{title}</Text>
-  </View>
-)
+const CityCta = ({ style, image, title }: Props) => {
+  //const CityImage = require(image)
+
+  return (
+    <View style={style}>
+      <Image source={{ uri: image }} style={styles.img} />
+      <Text>{title}</Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   img: {

@@ -16,6 +16,14 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import { TransitionPresets, TransitionSpecs } from '@react-navigation/stack'
 import { CalendarIcon, HomeIcon } from '#/components/base/Icon'
 
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useQuery,
+  gql,
+} from '@apollo/client'
+
 const ParamsContext = createContext({})
 const ParamsProvider = ({ children }) => {
   const state = useState({})
@@ -67,40 +75,47 @@ const config = {
   },
 }
 
+const client = new ApolloClient({
+  uri: 'http://192.168.1.87:4000',
+  cache: new InMemoryCache(),
+})
+
 const App = () => {
   const Stack = createSharedElementStackNavigator()
 
   return (
-    <ParamsProvider>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={TabNavigator} />
-          <Stack.Screen
-            name="Stay"
-            component={Stay}
-            options={{
-              ...TransitionPresets.ModalSlideFromBottomIOS,
-              presentation: 'transparentModal',
-              gestureResponseDistance: 280,
-            }}
-          />
-          <Stack.Screen
-            name="Search"
-            component={Search}
-            options={{
-              ...TransitionPresets.ModalSlideFromBottomIOS,
-              presentation: 'transparentModal',
-              transitionSpec: {
-                open: config,
-                close: TransitionSpecs.TransitionIOSSpec,
-              },
-              gestureEnabled: false,
-              animationEnabled: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ParamsProvider>
+    <ApolloProvider client={client}>
+      <ParamsProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={TabNavigator} />
+            <Stack.Screen
+              name="Stay"
+              component={Stay}
+              options={{
+                ...TransitionPresets.ModalSlideFromBottomIOS,
+                presentation: 'transparentModal',
+                gestureResponseDistance: 280,
+              }}
+            />
+            <Stack.Screen
+              name="Search"
+              component={Search}
+              options={{
+                ...TransitionPresets.ModalSlideFromBottomIOS,
+                presentation: 'transparentModal',
+                transitionSpec: {
+                  open: config,
+                  close: TransitionSpecs.TransitionIOSSpec,
+                },
+                gestureEnabled: false,
+                animationEnabled: false,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ParamsProvider>
+    </ApolloProvider>
   )
 }
 
