@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Text } from '#/components/base'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, LayoutAnimation } from 'react-native'
@@ -12,10 +13,9 @@ import {
   SearchWizardStep,
 } from '#/components/partial'
 import { View } from 'react-native-animatable'
-import { CommonActions, NavigationProp } from '@react-navigation/native'
+import { NavigationProp } from '@react-navigation/native'
 import { useParams } from '../../../../App'
 import { format } from 'date-fns'
-import { TransitionPresets } from '@react-navigation/stack'
 
 const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
   const [results, setResults] = useState(searchMockData.cities)
@@ -127,7 +127,7 @@ const Search = ({ navigation }: { navigation: NavigationProp<any, any> }) => {
     updateHomeParams({ dates: formattedDates })
   }
 
-  const handlePeoplePicked = people => {
+  const handlePeoplePicked = (people: {}) => {
     let selectedPeople = []
 
     Object.keys(people).forEach(person => {

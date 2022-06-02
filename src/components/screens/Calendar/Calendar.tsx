@@ -9,14 +9,14 @@
  */
 
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { Toggle } from '#/components/base'
+import { StyleSheet } from 'react-native'
+import { Text } from '#/components/base'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Calendar = () => {
   return (
     <SafeAreaView style={styles.background}>
-      <Toggle values={['Calendar', "I'm flexible"]} onToggle={() => {}} />
+      <Text>There is nothing here go away.</Text>
     </SafeAreaView>
   )
 }
