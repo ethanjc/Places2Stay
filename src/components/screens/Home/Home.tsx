@@ -52,8 +52,6 @@ const Header = ({ openSearch }: { openSearch: () => void }) => {
 const Footer = () => {
   const { loading, data: { cityRow } = {} } = useQuery(CITIES)
 
-  console.log(cityRow)
-
   return (
     <View>
       <SectionHeader
