@@ -19,11 +19,14 @@ import { useParams } from '../../../../App'
 import { gql, useQuery } from '@apollo/client'
 
 const CITIES = gql`
-  query GetCities {
-    cities {
-      title
+  query GetCiityRow {
+    cityRow {
       id
-      image
+      cities {
+        title
+        image
+        id
+      }
     }
   }
 `
@@ -47,7 +50,9 @@ const Header = ({ openSearch }: { openSearch: () => void }) => {
 }
 
 const Footer = () => {
-  const { loading, error, data } = useQuery(CITIES)
+  const { loading, data: { cityRow } = {} } = useQuery(CITIES)
+
+  console.log(cityRow)
 
   return (
     <View>
@@ -57,8 +62,8 @@ const Footer = () => {
       />
       <ScrollView horizontal style={styles.carousel}>
         {!loading &&
-          data.cities?.length &&
-          data.cities.map(({ id, title, image }) => (
+          cityRow.cities?.length &&
+          cityRow.cities.map(({ id, title, image }) => (
             <CityCta
               style={styles.cityCta}
               key={id}
